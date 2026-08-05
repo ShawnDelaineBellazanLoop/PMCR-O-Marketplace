@@ -28,6 +28,14 @@ Claude Code, Cursor, VS Code, and Codex CLI.
 | dotnet11 | Skills for new .NET 11 APIs and language features. |
 | dotnet-experimental | Experimental skills under active evaluation that may change or graduate to stable plugins. |
 
+## Plugin Structure
+
+Each plugin directory contains:
+- `plugin.json` — plugin manifest with `skills` field pointing to skills directory
+- `.claude-plugin/plugin.json` — Claude Code plugin manifest
+- `.codex-plugin/plugin.json` — Codex CLI plugin manifest
+- `skills/` — directory of skill folders, each containing `SKILL.md`
+
 ## Installation
 
 ### Plugins - Copilot CLI / Claude Code
