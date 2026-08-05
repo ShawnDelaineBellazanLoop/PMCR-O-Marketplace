@@ -16,6 +16,10 @@
       "path": "skills/skill-creator/SKILL.md"
     },
     {
+      "name": "plugin-creator",
+      "path": "skills/plugin-creator/SKILL.md"
+    },
+    {
       "name": "powershell-expert",
       "path": "skills/powershell-expert/SKILL.md"
     },
