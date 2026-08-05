@@ -1,43 +1,16 @@
-﻿{
-    "description":  "PMCR-O pmcro-csuite plugin",
-    "name":  "pmcro-csuite",
-    "version":  "1.0.0",
-    "skills":  [
-                   {
-                       "name":  "ceo",
-                       "path":  "skills/ceo/SKILL.md"
-                   },
-                   {
-                       "name":  "cfo",
-                       "path":  "skills/cfo/SKILL.md"
-                   },
-                   {
-                       "name":  "chief-of-staff",
-                       "path":  "skills/chief-of-staff/SKILL.md"
-                   },
-                   {
-                       "name":  "chro",
-                       "path":  "skills/chro/SKILL.md"
-                   },
-                   {
-                       "name":  "clo",
-                       "path":  "skills/clo/SKILL.md"
-                   },
-                   {
-                       "name":  "cmo",
-                       "path":  "skills/cmo/SKILL.md"
-                   },
-                   {
-                       "name":  "coo",
-                       "path":  "skills/coo/SKILL.md"
-                   },
-                   {
-                       "name":  "cro",
-                       "path":  "skills/cro/SKILL.md"
-                   },
-                   {
-                       "name":  "cto",
-                       "path":  "skills/cto/SKILL.md"
-                   }
-               ]
+{
+    "description": "PMCR-O pmcro-csuite plugin — C-Suite executive domain skills",
+    "name": "pmcro-csuite",
+    "version": "1.0.0",
+    "skills": [
+        { "name": "ceo", "path": "skills/ceo/SKILL.md" },
+        { "name": "cfo", "path": "skills/cfo/SKILL.md" },
+        { "name": "chief-of-staff", "path": "skills/chief-of-staff/SKILL.md" },
+        { "name": "chro", "path": "skills/chro/SKILL.md" },
+        { "name": "clo", "path": "skills/clo/SKILL.md" },
+        { "name": "cmo", "path": "skills/cmo/SKILL.md" },
+        { "name": "coo", "path": "skills/coo/SKILL.md" },
+        { "name": "cro", "path": "skills/cro/SKILL.md" },
+        { "name": "cto", "path": "skills/cto/SKILL.md" }
+    ]
 }

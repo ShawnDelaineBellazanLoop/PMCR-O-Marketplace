@@ -1,0 +1,11 @@
+{
+  "disposition": "Accept",
+  "baton": {
+    "NextSeedIntent": "Audit any PowerShell scripts in this repo's tooling for ConvertTo-Json | Out-File / Set-Content calls missing -Encoding utf8NoBOM, and fix at the source so this stops recurring per-file."
+  },
+  "sealedAt": "2026-08-05T00:00:00+00:00",
+  "trailId": "c902c5c0-e762-4f04-9ce4-4218246ae263",
+  "cycleCount": 1,
+  "summary": "Found and fixed the root cause of Shawn's 'nothing inside' report: pmcro-csuite and pmcro-engine's .claude-plugin/plugin.json both had a UTF-8 BOM (third recurrence of this defect in the repo), which silently blocked Claude Code from reading their skills arrays even though the underlying skill files were all present and correct on disk. Rewrote both manifests clean, swept all 40 plugin.json files in the repo to confirm zero remaining BOM, and crystallized EC-2026-08-05-002.",
+  "earnedConstraints": ["EC-2026-08-05-002"]
+}
