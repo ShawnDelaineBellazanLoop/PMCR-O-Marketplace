@@ -1,0 +1,97 @@
+# ─────────────────────────────────────────────────────────────
+# Harness Workflow  —  Execution Engine Wrapper
+# ─────────────────────────────────────────────────────────────
+#
+# Harness is the execution engine. It does NOT contain PMCR-O
+# governance logic — it simply executes the pmcro-cycle workflow,
+# returns results, and lets PMCR-O evaluate them.
+#
+# Key principle: Harness answers "What ran?" PMCR-O answers
+# "Was it right?" The two concerns are deliberately separated.
+#
+# This workflow is the bridge between:
+#   Application Layer (CopilotKit / API / Human)
+#       ↓
+#   Harness (this workflow)
+#       ↓
+#   PMCR-O Cycle (pmcro.workflow.yaml)
+#       ↓
+#   Capabilities (Skills → MCP Servers)
+
+name: harness-execute
+description: "Harness: receives a Seed Intent, executes the PMCR-O cycle, returns results"
+
+# ── Input Contract ───────────────────────────────────────────────
+inputs:
+  seed_intent:
+    type: string
+    required: true
+    description: "The natural-language intent from the user/application layer"
+  domain_scope:
+    type: string
+    required: false
+    description: "Optional C-Suite domain tag (cto, cfo, etc.)"
+  autonomy_level:
+    type: integer
+    default: 1
+    enum: [0, 1, 2, 3]
+    description: >
+      0 = Human approval for all external actions.
+      1 = Auto-execute read-only ops (search, analysis). Default.
+      2 = Auto-execute pre-approved actions with audit trails.
+      3 = Extended autonomy within explicit governance boundaries.
+
+# ── Executors ────────────────────────────────────────────────────
+executors:
+
+  # Identity Injection — prime the colony context before the cycle
+  - id: identity_injection
+    type: custom
+    description: >
+      Inject Colony identity into the execution context.
+      Loads Colony Laws, domain scope, and autonomy policy.
+      This is NOT an agent — it's deterministic context assembly.
+    produces: [colony_context]
+
+  # PMCR-O Cycle — the full Plan/Make/Check/Reflect pipeline
+  - id: pmcro_cycle
+    type: subgraph
+    workflow: pmcro-cycle  # References pmcro.workflow.yaml
+    description: >
+      Execute the full PMCR-O cognitive cycle against the Seed Intent.
+      This is the same workflow regardless of how Harness was invoked —
+      CopilotKit, direct API, or autonomous Night Shift runner.
+    reads: [seed_intent, domain_scope, colony_context]
+    produces: [trail_id, disposition, artifact, baton]
+
+  # Result Assembly — package results for the application layer
+  - id: result_assembly
+    type: custom
+    description: >
+      Assemble the completed cycle's output into a response format
+      the application layer understands. Does not interpret or
+      evaluate the result — that's PMCR-O governance, not Harness.
+    reads: [trail_id, disposition, artifact, baton]
+    produces: [harness_response]
+
+# ── Edges ────────────────────────────────────────────────────────
+edges:
+  - from: identity_injection
+    to: pmcro_cycle
+
+  - from: pmcro_cycle
+    to: result_assembly
+
+  - from: result_assembly
+    to: __end__
+
+# ── Night Shift (autonomous chaining) ────────────────────────────
+# When a Baton (NextSeedIntent) is present in the result, the
+# Night Shift runner can open a new invocation. This is NOT an
+# edge inside this graph — it's a separate invocation of Harness
+# with the Baton as the new Seed Intent.
+#
+#   Harness(seed=Baton) → pmcro-cycle → new Trail → ...
+#
+# Chain length is bounded by the Night Shift runner's own policy,
+# not by anything inside this workflow.

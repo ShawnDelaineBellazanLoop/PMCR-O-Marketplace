@@ -1,0 +1,16 @@
+{
+  "trailId": "2026-08-05-marketplace-plugin-completion",
+  "subjectAgent": "claude-web",
+  "domainScope": "cto",
+  "status": "sealed",
+  "disposition": "ACCEPT",
+  "sealedAt": "2026-08-05",
+  "openQuestions": [
+    "Does pmcro-engine need a root-level commands/ dir, or is it command-less by design (role-skills only)?"
+  ],
+  "artifacts": [
+    "plugins/pmcro-engine/.codex-plugin/plugin.json",
+    "plugins/pmcro-csuite/.codex-plugin/plugin.json",
+    "plugins/pmcro-specialty/.codex-plugin/plugin.json"
+  ]
+}

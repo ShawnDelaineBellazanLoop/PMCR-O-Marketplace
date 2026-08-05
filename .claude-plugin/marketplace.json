@@ -1,0 +1,127 @@
+﻿{
+    "description":  "PMCR-O Colony - Agent Skills Marketplace",
+    "name":  "pmcro-colony",
+    "version":  "1.0.0",
+    "plugins":  [
+                    {
+                        "path":  "plugins/pmcro-csuite",
+                        "name":  "pmcro-csuite",
+                        "source":  "./",
+                        "description":  "C-Suite executive domain skills: CEO, CFO, CTO, COO, CMO, CRO, CHRO, CLO, Chief of Staff"
+                    },
+                    {
+                        "path":  "plugins/pmcro-engine",
+                        "name":  "pmcro-engine",
+                        "source":  "./",
+                        "description":  "PMCR-O core engine: Plan, Make, Check, Reflect orchestration and loop management"
+                    },
+                    {
+                        "path":  "plugins/pmcro-legacy",
+                        "name":  "pmcro-legacy",
+                        "source":  "./",
+                        "description":  "22 skills folded in from canonical W:\\PMCR_O\\PMCR-O during 2026-08-05 consolidation, not yet re-sorted (checker-agent, filesystem-agent, terminal-agent, playwright-agent, mcp-server-template, pmcro-framework, and others)."
+                    },
+                    {
+                        "path":  "plugins/pmcro-specialty",
+                        "name":  "pmcro-specialty",
+                        "source":  "./",
+                        "description":  "Specialty skills: powershell-expert, property-preservation, career-evidence, skill-creator"
+                    },
+                    {
+                        "path":  "plugins/dotnet",
+                        "name":  "dotnet",
+                        "source":  "./",
+                        "description":  "C# language server (LSP) integration for coding agents and high-level .NET development skills."
+                    },
+                    {
+                        "path":  "plugins/dotnet-advanced",
+                        "name":  "dotnet-advanced",
+                        "source":  "./",
+                        "description":  "Advanced .NET and C# skills for niche scenarios that are not part of the core dotnet plugin."
+                    },
+                    {
+                        "path":  "plugins/dotnet-data",
+                        "name":  "dotnet-data",
+                        "source":  "./",
+                        "description":  "Skills for .NET data access and Entity Framework related tasks."
+                    },
+                    {
+                        "path":  "plugins/dotnet-diag",
+                        "name":  "dotnet-diag",
+                        "source":  "./",
+                        "description":  "Skills for .NET performance investigations, debugging, and incident analysis."
+                    },
+                    {
+                        "path":  "plugins/dotnet-msbuild",
+                        "name":  "dotnet-msbuild",
+                        "source":  "./",
+                        "description":  "Comprehensive MSBuild and .NET build skills: failure diagnosis, performance optimization, code quality, and modernization."
+                    },
+                    {
+                        "path":  "plugins/dotnet-nuget",
+                        "name":  "dotnet-nuget",
+                        "source":  "./",
+                        "description":  "NuGet and .NET package management: dependency management and modernization."
+                    },
+                    {
+                        "path":  "plugins/dotnet-upgrade",
+                        "name":  "dotnet-upgrade",
+                        "source":  "./",
+                        "description":  "Skills for migrating and upgrading .NET projects across framework versions, language features, and compatibility targets."
+                    },
+                    {
+                        "path":  "plugins/dotnet-maui",
+                        "name":  "dotnet-maui",
+                        "source":  "./",
+                        "description":  "Skills for .NET MAUI development: environment setup, diagnostics, troubleshooting, navigation, data binding, dependency injection, layout, and theming."
+                    },
+                    {
+                        "path":  "plugins/dotnet-ai",
+                        "name":  "dotnet-ai",
+                        "source":  "./",
+                        "description":  "AI and ML skills for .NET: technology selection, LLM integration, agentic workflows, RAG pipelines, MCP, and classic ML with ML.NET."
+                    },
+                    {
+                        "path":  "plugins/dotnet-template-engine",
+                        "name":  "dotnet-template-engine",
+                        "source":  "./",
+                        "description":  ".NET Template Engine skills: template discovery, project scaffolding, and template authoring."
+                    },
+                    {
+                        "path":  "plugins/dotnet-test",
+                        "name":  "dotnet-test",
+                        "source":  "./",
+                        "description":  "Skills for running, generating, analyzing, and improving .NET tests: test execution, filtering, platform detection, coverage, testability, and MSTest workflows."
+                    },
+                    {
+                        "path":  "plugins/dotnet-test-migration",
+                        "name":  "dotnet-test-migration",
+                        "source":  "./",
+                        "description":  "Skills and an orchestrator agent for migrating .NET test frameworks and platforms: MSTest and xUnit version upgrades, xUnit-to-MSTest conversion, and VSTest to Microsoft.Testing.Platform."
+                    },
+                    {
+                        "path":  "plugins/dotnet-aspnetcore",
+                        "name":  "dotnet-aspnetcore",
+                        "source":  "./",
+                        "description":  "ASP.NET Core web development skills including middleware, endpoints, real-time communication, and API patterns."
+                    },
+                    {
+                        "path":  "plugins/dotnet-blazor",
+                        "name":  "dotnet-blazor",
+                        "source":  "./",
+                        "description":  "Skills for Blazor development: component authoring, interactivity, and web application patterns."
+                    },
+                    {
+                        "path":  "plugins/dotnet11",
+                        "name":  "dotnet11",
+                        "source":  "./",
+                        "description":  "Skills for new .NET 11 APIs and language features."
+                    },
+                    {
+                        "path":  "plugins/dotnet-experimental",
+                        "name":  "dotnet-experimental",
+                        "source":  "./",
+                        "description":  "Experimental skills under active evaluation that may change or graduate to stable plugins."
+                    }
+                ]
+}

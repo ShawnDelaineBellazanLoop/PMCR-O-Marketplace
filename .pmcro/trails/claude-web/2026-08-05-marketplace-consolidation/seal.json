@@ -1,0 +1,10 @@
+{
+  "TrailId": "2026-08-05-marketplace-consolidation",
+  "SealedAt": "2026-08-05T00:00:00Z",
+  "SubjectAgent": "claude-web",
+  "FinalDisposition": "ACCEPT",
+  "CyclesUsed": 1,
+  "Decision": "Reversed the earlier pmcro-scaffold-scoping decision. Shawn wants everything consolidated into W:\\PMCR_O\\PMCR-O-Marketplace, deleting older projects as they're folded in. Step 1 (this trail): deleted W:\\PMCR-O (root, no PMCR_O parent) after confirming it held nothing but stale bin\\/obj\\ build output and a broken .git (objects\\ folder only, no HEAD/refs/config). Merged W:\\PMCR_O\\PMCR-O\\.pmcro\\{laws,constraints,agents,checkpoints} into this repo's .pmcro\\ as real files via robocopy /E /XO -- no conflicts, all new files. Updated identity.json, laws/POINTER.md, and MEMORY.md to describe the merged state instead of the old pointer-only story.",
+  "Rationale": "Shawn explicitly chose full merge over the previous pointer-only architecture, accepting the divergence risk that architecture was designed to avoid, in exchange for a single project to maintain going forward.",
+  "OpenFollowUp": "W:\\PMCR_O\\PMCR-O (the full canonical repo -- skills\\, src\\, docs\\, catalog\\, plus the rest of .pmcro\\: cache, context, evaluations, frames, registry, runtime, sessions, skills-staging, trails) has NOT been folded in or deleted yet. That is a much larger move (real source code, not just config) and needs its own explicit go-ahead on: (1) whether skills\\/src\\/docs\\ get copied into the Marketplace repo structure or left out, (2) whether trail HISTORY gets merged or just governance, (3) confirming nothing depends on W:\\PMCR_O\\PMCR-O still existing (build scripts, IDE workspace files, other tools) before deletion. Also: the other loose W:\\ root clutter (ProjectName, pmcro-ai-company, pmcro-skills, various .zip exports) was explicitly excluded from this round per Shawn's answer -- still sitting there, unaddressed."
+}

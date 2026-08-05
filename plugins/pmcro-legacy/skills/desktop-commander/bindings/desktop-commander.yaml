@@ -1,0 +1,55 @@
+# Desktop Commander — Capability Binding
+# Maps PMCR-O capabilities to MCP tools. Names now match custom MCP servers.
+
+version: "1.0.0"
+mcp_server: desktop-commander
+transport: stdio
+
+capabilities:
+  filesystem:
+    tools:
+      - name: read_file
+        mcp_tool: desktop-commander__read_file
+        type: TYPE2
+      - name: write_file
+        mcp_tool: desktop-commander__write_file
+        type: TYPE1
+      - name: list_directory
+        mcp_tool: desktop-commander__list_directory
+        type: TYPE2
+      - name: get_file_info
+        mcp_tool: desktop-commander__get_file_info
+        type: TYPE2
+      - name: start_search
+        mcp_tool: desktop-commander__start_search
+        type: TYPE2
+
+  terminal:
+    tools:
+      - name: start_process
+        mcp_tool: desktop-commander__start_process
+        type: TYPE1
+      - name: kill_process
+        mcp_tool: desktop-commander__kill_process
+        type: TYPE1
+      - name: list_sessions
+        mcp_tool: desktop-commander__list_sessions
+        type: TYPE2
+      - name: which
+        mcp_tool: Which
+        type: TYPE2
+      - name: get_environment
+        mcp_tool: GetEnvironment
+        type: TYPE2
+      - name: run_script
+        mcp_tool: RunScript
+        type: TYPE1
+
+  browser:
+    tools:
+      - name: scrape
+        mcp_tool: NavigateTo
+        type: TYPE1
+      - name: google_search
+        mcp_tool: google_search
+        type: TYPE2

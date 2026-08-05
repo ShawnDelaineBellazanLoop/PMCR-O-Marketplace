@@ -1,0 +1,11 @@
+{
+  "TrailId": "bb4a8492-50b8-431d-876b-f0dae4a695b7",
+  "SeedIntent": "list the skills directory",
+  "Disposition": "Halt",
+  "FinalOutput": "",
+  "RetryContext": null,
+  "HaltReason": "Gate failure: success_criteria not covered by any CheckItem: \u0027The contents of the skills directory are successfu...\u0027",
+  "EarnedConstraints": [],
+  "CycleNumber": 1,
+  "NextSeedIntent": null
+}

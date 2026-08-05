@@ -1,0 +1,27 @@
+﻿{
+    "description":  "PMCR-O pmcro-engine plugin",
+    "name":  "pmcro-engine",
+    "version":  "1.0.0",
+    "skills":  [
+                   {
+                       "name":  "checker",
+                       "path":  "skills/checker/SKILL.md"
+                   },
+                   {
+                       "name":  "maker",
+                       "path":  "skills/maker/SKILL.md"
+                   },
+                   {
+                       "name":  "orchestrator",
+                       "path":  "skills/orchestrator/SKILL.md"
+                   },
+                   {
+                       "name":  "planner",
+                       "path":  "skills/planner/SKILL.md"
+                   },
+                   {
+                       "name":  "reflector",
+                       "path":  "skills/reflector/SKILL.md"
+                   }
+               ]
+}

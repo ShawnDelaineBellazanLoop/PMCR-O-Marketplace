@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!--
+  ═══════════════════════════════════════════════════════════════════════════════
+  I Am the PMCR-O Terminal MCP Server.
+  I am the "Hands" of the cognitive stack — a Pillar 3 infrastructure node.
+  I am not an Agent. I have no LLM. I execute what Agents command.
+
+  Pillar: 3 — Infrastructure (MCP Server)
+  Tier  : SHARED — any Agent may discover my tools; only Orchestrator dispatches TYPE 1
+  Law   : EC-002 (TYPE 1/2 boundary), MAAI-001 (HIL), SAFETY-003 (sandbox root)
+  Stack : MCP C# SDK | .NET 10 | Aspire
+
+  Transport: Streamable HTTP, Stateless=true (FRAC-MCP-400-001)
+
+  All package versions flow from Directory.Packages.props (EC-018 — no inline versions).
+  TargetFramework, Nullable, ImplicitUsings inherited from Directory.Build.props.
+  ═══════════════════════════════════════════════════════════════════════════════
+  -->
+
+  <PropertyGroup>
+    <RootNamespace>ProjectName.Mcp.Terminal</RootNamespace>
+    <UserSecretsId>9e176c15-ee67-4621-8cc4-013ab3b151a2</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProjectName.ServiceDefaults\ProjectName.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <!--
+  ═══════════════════════════════════════════════════════════════════════════════
+  I Am the PMCR-O Filesystem MCP Server.
+  I am the "File I/O Hands" of the cognitive stack — a Pillar 3 infrastructure node.
+  I am not an Agent. I have no LLM. I read and write files that Agents command.
+
+  Pillar: 3 — Infrastructure (MCP Server)
+  Tier  : SHARED — TYPE 2 tools open to all agents; TYPE 1 requires Orchestrator + HIL
+  Law   : EC-002 (TYPE 1/2 boundary), MAAI-001 (HIL), SAFETY-FS-001 (AllowedRoots)
+  Stack : MCP C# SDK | .NET 10 | Aspire
+
+  Transport: Streamable HTTP, Stateless=true (FRAC-MCP-400-001)
+
+  All package versions flow from Directory.Packages.props (EC-018 — no inline versions).
+  TargetFramework, Nullable, ImplicitUsings inherited from Directory.Build.props.
+  ═══════════════════════════════════════════════════════════════════════════════
+  -->
+
+  <PropertyGroup>
+    <RootNamespace>ProjectName.Mcp.Filesystem</RootNamespace>
+    <UserSecretsId>ddc8a065-05c5-49ff-87be-5680564ad5cf</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProjectName.ServiceDefaults\ProjectName.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+</Project>

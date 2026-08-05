@@ -1,0 +1,9 @@
+{
+  "TrailId": "2026-08-05-engine-commands-resolution",
+  "SealedAt": "2026-08-05T00:00:00Z",
+  "SubjectAgent": "claude-web",
+  "FinalDisposition": "ACCEPT",
+  "CyclesUsed": 1,
+  "Summary": "pmcro-engine intentionally has no root commands/ dir. csuite and specialty have commands/ because their skills are user/domain-facing entry points (one .md per slash command). Engine's five skills (planner, maker, checker, reflector, orchestrator) are the internal PMCR-O cycle machinery, dispatched only by orchestrator's own sequencing logic per each skill's own SKILL.md ('invoked by orchestrator, never invoked standalone by a domain command'). Marketplace plugin structure for all three pmcro-* plugins is now considered COMPLETE.",
+  "OpenFollowUp": "None for this trail. Separate open items remain: repo-wide 0-byte truncation sweep, domain-specialist SKILL.md content discrepancy, and .pmcro store consolidation (see MEMORY.md)."
+}

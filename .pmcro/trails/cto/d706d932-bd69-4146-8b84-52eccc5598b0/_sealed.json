@@ -1,0 +1,11 @@
+{
+  "disposition": "Accept",
+  "baton": {
+    "NextSeedIntent": "Decide src\\/mcp\\ placement for canonical W:\\PMCR_O\\PMCR-O (leave in place, move into Marketplace as top-level folders, or split to a separate repo). Separately, audit/re-seal the other 4 non-conformant claude-web trails (marketplace-consolidation, engine-commands-resolution, marketplace-plugin-completion, pmcro-scaffold-scoping) the same way this cycle did for pmcro-legacy."
+  },
+  "sealedAt": "2026-08-05T00:00:00+00:00",
+  "trailId": "d706d932-bd69-4146-8b84-52eccc5598b0",
+  "cycleCount": 1,
+  "summary": "Retroactively verified and sealed the pmcro-legacy plugin fold-in (22 skills + marketplace.json registration), confirmed real on disk via direct filesystem checks rather than prior session self-report. Flagged that the prior claude-web trails documenting this work were narrative seal.json files, not real sealed trails -- crystallized as EC-2026-08-05-001.",
+  "earnedConstraints": ["EC-2026-08-05-001"]
+}

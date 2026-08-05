@@ -1,0 +1,8 @@
+{
+  "trail_id": "0dd2616a-ff49-4271-8727-210b23593751",
+  "source_type": "claude-ai-chat",
+  "created_at": "2026-08-05T00:00:00Z",
+  "goal": "Correct stale canonical_* pointer fields in W:/PMCR_O/PMCR-O-Marketplace/.pmcro/identity.json (governance block) that read W:/PMCR_O/PMCR-O/.pmcro after the 2026-08-05 merge decision made this repo the real-copy destination, not a pointer to canonical.",
+  "context": "Shawn flagged in chat (pasted transcript) that canonical_pmcro_root, canonical_laws, canonical_constraints, and canonical_agents in identity.json still pointed at W:/PMCR_O/PMCR-O/.pmcro, contradicting the governance.note text already present in the file, which states laws/constraints/agents are MERGED real copies in THIS repo, not a pointer. Asked to 'run the loop to autonomously fix' and explain why the mismatch existed.",
+  "trail_convention": "pmcro-loop session-level trail -- ground-truth verification + correction pass, one acting agent performing plan/make/check/reflect in sequence"
+}

@@ -1,0 +1,8 @@
+{
+  "trail_id": "5959dbff-a8b3-4120-b820-9e3060196672",
+  "source_type": "claude-ai-chat",
+  "created_at": "2026-08-05T16:01:30Z",
+  "goal": "Fix marketplace.json missing source fields for planner/maker/checker/reflector, and correct checker's SKILL.md phantom .agents/rules/ path reference.",
+  "context": "A prior Desktop Commander session found two gaps during a ground-truth pass on the catalog migration: (1) .claude-plugin/marketplace.json had planner/maker/checker/reflector entries as bare name/description with no source field, unlike orchestrator's entry which already had one; (2) checker's SKILL.md Law-conformance check referenced ../../../../../../../.agents/rules/, a path that does not exist -- the real constraint ledger lives at skills/orchestrator-agent/references/constraint-ledger.md. Both fixes were applied via edit_block in that session, which ended before a trail was sealed for the work.",
+  "trail_convention": "pmcro-loop session-level trail -- retroactive verification trail, one acting agent performing plan/make/check/reflect in sequence"
+}

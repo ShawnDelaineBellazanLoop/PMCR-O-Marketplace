@@ -1,0 +1,11 @@
+{
+  "disposition": "Accept",
+  "baton": {
+    "NextSeedIntent": "Canonical W:\\PMCR_O\\PMCR-O still holds catalog\\, docs\\, and the original full skills\\ (38 folders). Reconcile against this repo's plugins\\/docs\\ before canonical can be deleted. Also clean up identity.json's stale canonical_* pointer fields."
+  },
+  "sealedAt": "2026-08-05T00:00:00+00:00",
+  "trailId": "b29533b0-a4c3-439f-9ed6-e4e8b5eb9596",
+  "cycleCount": 1,
+  "summary": "Moved src\\ and mcp\\ (the real .NET runtime application and its 3 MCP servers) from canonical W:\\PMCR_O\\PMCR-O into W:\\PMCR_O\\PMCR-O-Marketplace as top-level folders. Verified independently on both ends before/after via list_directory, not by trusting the move tool's own success message. Updated identity.json and MEMORY.md to reflect the new state.",
+  "earnedConstraints": []
+}

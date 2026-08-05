@@ -1,0 +1,10 @@
+{
+  "disposition": "Halt",
+  "baton": {
+    "NextSeedIntent": "Build a stdio-based MCP client for Desktop Commander in W:\\PMCR-O's OrchestratorService, using ModelContextProtocol 1.4.0's StdioClientTransport to spawn 'npx -y @wonderwhy-er/desktop-commander', expose its tools (read_file, write_file, list_directory, start_process, interact_with_process, etc.) through a new 'desktop-commander-agent' entry in McpToolCache's AgentToolCatalog/GetMakerTools, and register it in SubjectAgentRegistry alongside filesystem-agent/terminal-agent/playwright-agent -- not replacing them outright, since Desktop Commander has no browser-automation equivalent to mcp-playwright. Also correct or remove the Directory.Packages.props comment describing a native-client rewrite that was never actually made to McpToolCache.cs."
+  },
+  "sealedAt": "2026-07-22T00:30:08+00:00",
+  "trailId": "b6bb4bc7-3899-4c3f-a42b-8ee1452748b3",
+  "cycleCount": 1,
+  "summary": "Investigated Desktop Commander wiring feasibility for W:\\PMCR-O. Confirmed McpToolCache.cs uses hand-rolled HTTP/JSON-RPC, not the native SDK client Directory.Packages.props claims. Confirmed Desktop Commander requires stdio transport, incompatible with the existing HTTP-based client pattern. Halted before writing implementation code, pending go-ahead."
+}

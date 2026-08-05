@@ -1,0 +1,5 @@
+{
+  "trail_id": "9f2e4a1b-7c3d-4e5f-a1b2-c3d4e5f6a7b8",
+  "seed_intent": "Investigate the minimal field-mapping needed for trail-indexer and pattern-learner to correctly read real sealed trails under .pmcro/trails/{subjectAgentName}/{trailId}/, given the verified real schema in LoopFrame.cs and ITrailWriter.cs. Do not modify either skill's SKILL.md yet -- this cycle is investigation and a concrete field-mapping recommendation only. TYPE2, non-mutating.",
+  "started_utc": "2026-07-23T08:15:00Z"
+}

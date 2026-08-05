@@ -1,0 +1,11 @@
+{
+  "TrailId": "6f8badc8-ddfb-4ab5-be1f-0685c0ec0c60",
+  "SeedIntent": "Fix marketplace.json to conform to the real Claude Code marketplace schema, verified against official docs.",
+  "Disposition": "Accept",
+  "FinalOutput": "W:\\PMCR-O\\.claude-plugin\\marketplace.json now uses the correct top-level 'plugins' key and required 'owner' object, matching code.claude.com docs and anthropics/claude-code's own marketplace.json. The orchestrator entry (migrated last cycle) now resolves. 27 other entries remain in the old inline-commands shape and need the same catalog-migration treatment before they'll resolve.",
+  "RetryContext": null,
+  "HaltReason": null,
+  "EarnedConstraints": ["EC-CANDIDATE-MARKETPLACE-SCHEMA"],
+  "CycleNumber": 1,
+  "NextSeedIntent": "Migrate remaining 27 skills (starting with the 4 other PMCR-O engine roles: planner, maker, checker, reflector, then dependency-resolver and skill-creator, then the 9 C-suite domains, then the agent/utility skills) into catalog/<Lane>/<Package>/skills/<name>/ with .claude-plugin/plugin.json each, then add matching 'source' entries to marketplace.json plugins[]."
+}

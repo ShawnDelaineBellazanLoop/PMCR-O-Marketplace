@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProjectName.AgentService.Protos";
+
+package agents;
+
+// AgentService — gRPC surface for PMCRO agent loop invocation.
+// Primary consumers: Aspire dashboard health checks, future OrchestrationApi passoff.
+service AgentService {
+  // RunCycle: submit a seed intent, receive a streamed PMCRO loop response.
+  rpc RunCycle (CycleRequest) returns (stream CycleUpdate);
+  // Health: simple liveness probe.
+  rpc Health (HealthRequest) returns (HealthReply);
+}
+
+message CycleRequest {
+  string seed_intent = 1;
+  string cycle_id    = 2; // optional — caller may supply; server generates if empty
+}
+
+message CycleUpdate {
+  string phase   = 1; // plan | make | check | reflect | done | error
+  string content = 2;
+  string cycle_id = 3;
+}
+
+message HealthRequest {}
+
+message HealthReply {
+  string status = 1;
+}

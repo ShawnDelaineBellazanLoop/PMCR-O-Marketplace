@@ -1,0 +1,6 @@
+{
+  "name": "pmcro-csuite",
+  "version": "1.0.0",
+  "description": "C-Suite executive domain skills: CEO, CFO, CTO, COO, CMO, CRO, CHRO, CLO, Chief of Staff",
+  "skills": ["./skills/"]
+}

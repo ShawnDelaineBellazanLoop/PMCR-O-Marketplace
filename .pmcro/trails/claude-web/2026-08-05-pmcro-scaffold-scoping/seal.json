@@ -1,0 +1,10 @@
+{
+  "TrailId": "2026-08-05-pmcro-scaffold-scoping",
+  "SealedAt": "2026-08-05T00:00:00Z",
+  "SubjectAgent": "claude-web",
+  "FinalDisposition": "ACCEPT",
+  "CyclesUsed": 1,
+  "Decision": "Shawn asked whether to build a new .pmcro/ in the marketplace repo, and whether anything from canonical (W:\\PMCR-O\\.pmcro) should move here. Decision: keep this repo's .pmcro repo-local only (memory/MEMORY.md, trails/). Do NOT fork laws/colony-laws.md, constraints/earned-constraints.json, or agents/ AGENT.md files here -- those stay single-sourced in canonical. Added identity.json (repo-local, points at canonical governance paths instead of duplicating values) and laws/POINTER.md (explicit no-fork notice + where to look instead).",
+  "Rationale": "The exact failure this session already surfaced once: an earlier MEMORY.md in this repo asserted 'no .pmcro existed anywhere' without checking canonical, because the two stores had no cross-reference. Copying governance files here would recreate that failure mode the moment either copy is edited independently.",
+  "OpenFollowUp": "If Shawn later wants true single-repo consolidation (marketplace repo's trails living inside canonical .pmcro instead of alongside it), that is a bigger move (physically relocating trail history) and should be its own explicit decision, not inferred from this one."
+}

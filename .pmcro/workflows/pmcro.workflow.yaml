@@ -1,0 +1,266 @@
+# ─────────────────────────────────────────────────────────────
+# PMCR-O Core Workflow  —  Planner → Maker → Checker → Reflector
+# ─────────────────────────────────────────────────────────────
+#
+# This is the canonical execution graph for one PMCR-O cognitive cycle.
+# It is designed to run on Microsoft.Agents.AI.Workflows as the execution
+# substrate (see docs/architecture/04-Workflow-Substrate.md §6).
+#
+# Every concept below maps onto either a native Workflows mechanism or
+# unchanged PMCR-O logic inside a custom Executor. Frames, Trails,
+# Dispositions, Batons, Ground Truth, and Colony Laws remain opaque
+# application data from the substrate's perspective.
+#
+# Scoping rule: this graph represents ONE invocation (one Seed Intent
+# through to one sealed Trail). Baton succession creates a new invocation
+# and therefore a new graph execution — never an edge inside this graph.
+
+name: pmcro-cycle
+description: "PMCR-O cognitive cycle: Plan → Make → Check → Reflect, with HIL gating and Disposition routing"
+
+# ── Constants ────────────────────────────────────────────────────
+constants:
+  # Recursion bound: maximum Planner→Reflector loops before forced Halt
+  max_cycles: 10
+  # Each executor timeout, in seconds (generous for local 8b model)
+  executor_timeout_s: 600
+
+# ── Executors (the four PMCR-O phases + gates) ────────────────────
+executors:
+
+  # ── Orchestrator Entry ─────────────────────────────────────────
+  - id: orchestrator_entry
+    type: custom
+    description: >
+      Receives the Seed Intent from the application layer (CopilotKit,
+      API, or human), decides O-Mode strategy. Routes "full cycle"
+      intents to the Planner; all other strategies are short-circuit
+      paths that bypass the full cycle graph.
+    reads: [seed_intent, domain_scope]
+    produces: [o_mode_decision, routed_intent]
+    # If O-Mode is not "full cycle," this executor terminates the
+    # graph immediately with a direct answer — no cycle is run.
+
+  # ── Planner ────────────────────────────────────────────────────
+  - id: planner
+    type: agent
+    agent: PlannerAgent
+    description: >
+      I am the Planner. I decompose the Seed Intent into exactly one
+      bounded unit of work for this cycle and state explicit,
+      independently checkable SuccessCriteria. I never execute work.
+      I consult lifecycle state (executedActions) to avoid proposing
+      an action already attempted this Trail.
+    reads: [routed_intent, retry_context, executed_actions]
+    produces: [planner_frame]
+    gate: planner_gate
+    on_gate_failure: halt
+
+  # Planner Gate — well-formedness, scope, no placeholders
+  - id: planner_gate
+    type: gate
+    checks:
+      - name: well_formed
+        rule: "PlannerFrame is not null and all required fields are populated"
+      - name: bounded_scope
+        rule: "Exactly one bounded unit of work — no multi-step plans"
+      - name: no_placeholders
+        rule: "No TODO, placeholder, or unresolved reference in the plan"
+      - name: no_repeat
+        rule: "Proposed action is not already in executedActions unless the new proposal explicitly invalidates prior failure reasons"
+      - name: portable_paths
+        rule: "No hardcoded absolute paths referencing a specific machine"
+
+  # ── Maker ──────────────────────────────────────────────────────
+  - id: maker
+    type: agent
+    agent: MakerAgent
+    description: >
+      I am the Maker. I execute the Planner's bounded unit of work
+      against the resolved subject agent. For TYPE2 (read-only) actions
+      I dispatch directly. For TYPE1 (mutating) actions I produce a
+      pending stub and pause at the HIL gate. I surface reasoning gaps
+      mid-output, not after the fact.
+    reads: [planner_frame]
+    produces: [maker_frame]
+    gate: maker_gate
+    on_gate_failure: halt
+
+  # Maker Gate — no unresolved stubs, Ground Truth where required
+  - id: maker_gate
+    type: gate
+    checks:
+      - name: no_pending_stubs
+        rule: "No TYPE1 action remains in pending/unresolved state"
+      - name: ground_truth
+        rule: "Every verifiable result carries a GroundTruth record (method + verified + evidence)"
+      - name: no_self_dispatch
+        rule: "Maker phase did not self-execute a TYPE1 mutation — dispatch went through the HIL decision point"
+
+  # ── HIL Decision Point ─────────────────────────────────────────
+  - id: hil_gate
+    type: human_in_loop
+    mechanism: request_port  # Uses MAF Workflows RequestPort for pause/resume
+    trigger: TYPE1_PENDING   # Pauses only when Maker produced a TYPE1 stub
+    description: >
+      Pause execution when a mutating action requires approval.
+      On resume with real evidence, the Checker phase runs against
+      post-dispatch state — never against a still-pending stub.
+    on_deny: halt
+    on_approve: continue
+
+  # ── Checker ────────────────────────────────────────────────────
+  - id: checker
+    type: agent
+    agent: CheckerAgent
+    description: >
+      I am the Checker. I independently audit the Maker's result
+      against every item in the Planner's SuccessCriteria — one
+      CheckItem per criterion, pass/fail plus evidence. I also check
+      Colony Law compliance as one more checked item. I label claims
+      as VERIFIED, SYNTHESIZED, UNVERIFIED, or CONTRADICTED.
+      I never audit unresolved state.
+    reads: [planner_frame, maker_frame]
+    produces: [checker_frame]
+    gate: checker_gate
+    on_gate_failure: halt
+
+  # Checker Gate — full coverage, no rubber-stamping
+  - id: checker_gate
+    type: gate
+    checks:
+      - name: full_coverage
+        rule: "Every SuccessCriteria item from PlannerFrame is covered by a CheckItem"
+      - name: failing_items_have_rationale
+        rule: "Every failing CheckItem includes rationale for why it failed"
+      - name: no_unverified_passed
+        rule: "No CheckItem marked passed without evidence"
+      - name: disposition_present
+        rule: "CheckerFrame includes an explicit ACCEPT or NEEDS-REVISION disposition"
+
+  # ── Reflector ──────────────────────────────────────────────────
+  - id: reflector
+    type: agent
+    agent: ReflectorAgent
+    description: >
+      I am the Reflector. I decide this cycle's Disposition against
+      the Seed Intent and cumulativeEvidence — not just this cycle's
+      CheckerFrame. I run on both ACCEPT and NEEDS-REVISION cycles.
+      When Checker caught something recurring, I crystallize it into
+      an EarnedConstraint. The error becomes the true intent for
+      whatever comes next.
+    reads: [planner_frame, maker_frame, checker_frame, cumulative_evidence]
+    produces: [reflector_frame, disposition, earned_constraints]
+    gate: reflector_gate
+    on_gate_failure: halt
+
+  # Reflector Gate — Baton hygiene, decision against Seed Intent
+  - id: reflector_gate
+    type: gate
+    checks:
+      - name: retry_no_baton
+        rule: "If disposition is Retry, NextSeedIntent is empty"
+      - name: baton_self_contained
+        rule: "If Baton is present, it is self-contained — no deictic or referential language"
+      - name: halt_has_reason
+        rule: "If disposition is Halt, HaltReason is populated"
+      - name: reflect_against_seed
+        rule: "Reflector consulted cumulativeEvidence, not just this cycle's CheckerFrame"
+
+  # ── Trail Writer ────────────────────────────────────────────────
+  - id: trail_writer
+    type: custom
+    description: >
+      Seals all four Frames into the Trail as one cycle-record.
+      This is a PMCR-O-owned operation — no Workflows primitive
+      substitutes for Trail provenance guarantees.
+    reads: [planner_frame, maker_frame, checker_frame, reflector_frame, trail_id]
+    produces: [sealed_trail_record]
+    # Never skipped or failed — if we reached here, the cycle completed.
+
+# ── Edges (the execution graph topology) ─────────────────────────
+edges:
+
+  # Entry routing
+  - from: orchestrator_entry
+    to: planner
+    condition: "o_mode == 'full_cycle'"
+
+  - from: orchestrator_entry
+    to: __end__
+    condition: "o_mode != 'full_cycle'"
+    label: "short-circuit: direct answer"
+
+  # Planner → Maker (always)
+  - from: planner
+    to: maker
+
+  # Maker → HIL gate or straight to Checker
+  - from: maker
+    to: hil_gate
+    condition: "maker_frame contains TYPE1_PENDING"
+
+  - from: maker
+    to: checker
+    condition: "maker_frame has no TYPE1_PENDING"
+
+  # HIL → Checker (after resume) or Halt (on deny)
+  - from: hil_gate
+    to: checker
+    condition: "approved"
+
+  - from: hil_gate
+    to: halt_node
+    condition: "denied"
+
+  # Checker → Reflector (always, on both ACCEPT and NEEDS-REVISION)
+  - from: checker
+    to: reflector
+
+  # Reflector → Trail Writer (always seal before routing)
+  - from: reflector
+    to: trail_writer
+
+  # Reflector routing (after trail sealing)
+  - from: trail_writer
+    to: __end__
+    condition: "disposition == 'Accept' or disposition == 'Halt'"
+    label: "terminal: seal trail, end invocation"
+
+  - from: trail_writer
+    to: planner
+    condition: "disposition == 'Retry' and cycle_count < max_cycles"
+    label: "loop: re-enter Planner with RetryContext"
+
+  - from: trail_writer
+    to: halt_node
+    condition: "disposition == 'Retry' and cycle_count >= max_cycles"
+    label: "recursion bound reached → forced Halt"
+
+  # Halt node (terminal, writes Halt disposition)
+  - id: halt_node
+    type: terminal
+    description: "Writes Halt disposition to Trail and terminates invocation."
+
+# ── Lifecycle State (carried between cycles within one Trail) ────
+lifecycle_state:
+  # Both are Trail-scoped, not chain-scoped. A succession invocation
+  # begins with both empty.
+  - name: executed_actions
+    description: "Actions already attempted this Trail. Read by Planner to avoid repeats."
+    populated_by: trail_writer
+    cleared_on: succession
+
+  - name: cumulative_evidence
+    description: "List of {cycle, action, success_criteria, passed} across this Trail. Read by Reflector."
+    populated_by: trail_writer
+    cleared_on: succession
+
+# ── Invariants ───────────────────────────────────────────────────
+invariants:
+  - "A phase never reads ahead — Planner reads only seed/retry, Maker reads only PlannerFrame, Checker reads only PlannerFrame+MakerFrame, Reflector reads all three plus cumulativeEvidence"
+  - "Checker never audits unresolved state — Maker→Checker ordering enforced by HIL gate placement"
+  - "Retry never carries a Baton — enforced at Reflector Gate"
+  - "Baton is always self-contained — enforced at Reflector Gate"
+  - "Recursion bound reached → Halt, not infinite loop — enforced by edge condition"
+  - "Frames are immutable once written — Trail Writer is append-only"

@@ -1,0 +1,9 @@
+{
+  "requested_by": "cto",
+  "needs": ["cto-domain-scope"],
+  "resolved": [
+    {"name": "cto", "pmcro_provides": "cto-domain-scope"}
+  ],
+  "note": "This cycle ports/creates the engine role-skills themselves (planner, maker, checker, reflector, orchestrator, dependency-resolver, skill-creator) -- they do not yet exist in W:\\PMCR-O\\skills\\, so dependency-resolver cannot resolve them as pre-existing providers for this cycle. Executed directly by Claude under CTO domain scope rather than dispatched through a not-yet-existing orchestrator skill in this repo. This is itself a finding -- see 01-check.jsonl and 01-reflect.jsonl.",
+  "resolved_at": "2026-08-05T00:00:00Z"
+}

@@ -1,0 +1,33 @@
+{
+  "runtime": {
+    "schema": "pmcro-runtime-identity-v2",
+    "scope": "repo-local"
+  },
+  "identity": {
+    "company": "Tooensure",
+    "owner": "Shawn",
+    "project": "PMCR-O-Marketplace",
+    "role": "Claude Code / Codex CLI plugin marketplace for the PMCR-O colony, AND (as of 2026-08-05) the home of the runtime .NET application -- src/ and mcp/ moved here from canonical W:\\PMCR_O\\PMCR-O. This repo is no longer skills-only."
+  },
+  "governance": {
+    "note": "SUPERSEDED 2026-08-05, CORRECTED 2026-08-05: laws/constraints/agents were merged as real copies from canonical W:\\PMCR_O\\PMCR-O into THIS repo's .pmcro\\ -- the fields below now point at this repo (the merge destination), not at canonical (the merge source). W:\\PMCR-O (root, no PMCR_O parent) confirmed disposable and removed. src/ and mcp/ folded in 2026-08-05, sealed trail trails/cto/b29533b0-a4c3-439f-9ed6-e4e8b5eb9596/. pmcro-legacy 22-skill gap folded in, sealed trail trails/cto/d706d932-bd69-4146-8b84-52eccc5598b0/. Still remaining in canonical, NOT yet moved: catalog/, docs/, skills/ (the original 38, only the 22-skill gap was copied) -- need reconciliation against this repo's own copies before canonical can be deleted.",
+    "canonical_pmcro_root": "W:/PMCR_O/PMCR-O-Marketplace/.pmcro",
+    "canonical_laws": "W:/PMCR_O/PMCR-O-Marketplace/.pmcro/laws/colony-laws.md",
+    "canonical_constraints": "W:/PMCR_O/PMCR-O-Marketplace/.pmcro/constraints/earned-constraints.json",
+    "canonical_agents": "W:/PMCR_O/PMCR-O-Marketplace/.pmcro/agents/"
+  },
+  "workspace": {
+    "root": "W:/PMCR_O/PMCR-O-Marketplace",
+    "trail_root": ".pmcro/trails",
+    "memory_root": ".pmcro/memory",
+    "plugin_root": "plugins",
+    "app_src_root": "src",
+    "app_mcp_root": "mcp"
+  },
+  "compatible_tools": [
+    "Claude Code",
+    "Claude.ai",
+    "Codex CLI",
+    "Cursor"
+  ]
+}

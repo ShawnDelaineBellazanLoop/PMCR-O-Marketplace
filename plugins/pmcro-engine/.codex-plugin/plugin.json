@@ -1,0 +1,6 @@
+{
+  "name": "pmcro-engine",
+  "version": "1.0.0",
+  "description": "PMCR-O core engine: Plan, Make, Check, Reflect orchestration and loop management",
+  "skills": ["./skills/"]
+}

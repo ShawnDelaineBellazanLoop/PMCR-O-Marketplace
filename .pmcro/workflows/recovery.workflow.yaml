@@ -1,0 +1,126 @@
+# ─────────────────────────────────────────────────────────────
+# Recovery Workflow  —  Error Handling & State Restoration
+# ─────────────────────────────────────────────────────────────
+#
+# Recovery answers: "Something went wrong — what do we do now?"
+#
+# This workflow handles three classes of failure:
+#   1. Phase Gate failure (Planner/Maker/Checker/Reflector gate)
+#   2. Process interruption (crash, timeout, restart)
+#   3. Disposition-based escalation (Halt with recoverable cause)
+#
+# Recovery is NOT a retry loop. It diagnoses, decides, and either
+# resumes with state intact or seals a Halt Trail with a clear
+# HaltReason — never silently retries into the same failure.
+
+name: recovery
+description: "Recovery: diagnose failure, restore state or seal with HaltReason"
+
+# ── Input Contract ───────────────────────────────────────────────
+inputs:
+  trail_id:
+    type: string
+    required: true
+  failure_source:
+    type: string
+    required: true
+    enum: [gate_failure, process_interruption, disposition_escalation]
+  failure_detail:
+    type: object
+    required: true
+    description: "Structured failure context — which gate failed, what check, what was found"
+  last_cycle_state:
+    type: object
+    required: false
+    description: "The lifecycle state (executedActions, cumulativeEvidence) at the point of failure"
+
+# ── Executors ────────────────────────────────────────────────────
+executors:
+
+  # Diagnose — classify the failure
+  - id: diagnose
+    type: agent
+    agent: DiagnosticianAgent
+    description: >
+      I am the Diagnostician. I classify the failure: is it recoverable
+      within this Trail, or does it require a Halt? I check whether
+      the failure was a transient condition (model hallucination,
+      parse error) or a structural problem (policy violation,
+      impossible constraint, third failure of the same EC).
+    reads: [trail_id, failure_source, failure_detail, last_cycle_state]
+    produces: [diagnosis]
+
+  # Restore State — attempt to resume from last valid checkpoint
+  - id: restore_state
+    type: custom
+    description: >
+      If a process interruption occurred, attempt to restore the
+      in-flight cycle state from CheckpointStorage (MAF native)
+      and Trail records (PMCR-O). CheckpointStorage gives runner
+      state; Trail gives cycle provenance. Both are needed.
+    reads: [trail_id, diagnosis]
+    produces: [restored_state, recovery_possible]
+
+  # Resume Cycle — re-enter pmcro-cycle at the failed phase
+  - id: resume_cycle
+    type: subgraph
+    workflow: pmcro-cycle
+    description: >
+      Re-enter the cycle at the phase that failed, with the
+      recovered state from restore_state. Not a full restart —
+      only the failed phase and subsequent phases execute.
+    reads: [restored_state, trail_id]
+    produces: [trail_id, disposition, artifact, baton]
+
+  # Seal Halt — write final Halt disposition
+  - id: seal_halt
+    type: custom
+    description: >
+      If recovery is not possible, seal the Trail with a Halt
+      disposition and a clear HaltReason. The Trail remains
+      immutable — we do not delete or overwrite the partial
+      cycle records; we append the Halt as the final record.
+    reads: [trail_id, diagnosis, failure_detail]
+    produces: [halting_trail]
+
+# ── Edges ────────────────────────────────────────────────────────
+edges:
+  - from: diagnose
+    to: restore_state
+    condition: "diagnosis.is_recoverable == true"
+
+  - from: diagnose
+    to: seal_halt
+    condition: "diagnosis.is_recoverable == false"
+    label: "unrecoverable: seal Halt"
+
+  - from: restore_state
+    to: resume_cycle
+    condition: "recovery_possible == true"
+
+  - from: restore_state
+    to: seal_halt
+    condition: "recovery_possible == false"
+    label: "state lost: seal Halt"
+
+  - from: resume_cycle
+    to: __end__
+
+  - from: seal_halt
+    to: __end__
+
+# ── Recovery Policy ──────────────────────────────────────────────
+recovery_policy:
+  # Gate failures: single recovery attempt per cycle. If the same
+  # gate fails again, escalate to Halt — do not loop.
+  gate_failure_max_retries: 1
+
+  # Process interruption: one recovery attempt using
+  # CheckpointStorage + Trail state. If state is unrecoverable,
+  # seal Halt rather than starting from scratch.
+  process_interruption_max_retries: 1
+
+  # EC recurrence threshold: if the same EarnedConstraint is hit
+  # 3 times, the Reflector should already have recommended an
+  # O-Mode strategy switch. If we're here for a 4th time, Halt.
+  ec_recurrence_halt_threshold: 4

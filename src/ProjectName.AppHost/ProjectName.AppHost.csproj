@@ -1,0 +1,28 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.3.5">
+  <!--
+  I Am the PMCR-O AppHost. I am the Aspire orchestration entry point.
+  SDK version is pinned here and must match global.json msbuild-sdks.Aspire.AppHost.Sdk.
+  TargetFramework, Nullable, and ImplicitUsings are inherited from Directory.Build.props (EC-018).
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>9e6e3b37-3f69-42d4-9195-b56d52dfbaf8</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Ollama container resource + model health checks + GPU support -->
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" />
+    <!-- MAF Agent DevUI — provides AddDevUI() and WithAgentService() -->
+    <PackageReference Include="Aspire.Hosting.AgentFramework.DevUI" />
+    <PackageReference Include="MessagePack" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mcps\ProjectName.Mcp.Filesystem\ProjectName.Mcp.Filesystem.csproj" />
+    <ProjectReference Include="..\Mcps\ProjectName.Mcp.Playwright\ProjectName.Mcp.Playwright.csproj" />
+    <ProjectReference Include="..\Mcps\ProjectName.Mcp.Terminal\ProjectName.Mcp.Terminal.csproj" />
+    <ProjectReference Include="..\Services\ProjectName.AgentService\ProjectName.AgentService.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,27 @@
+{
+  "name": "pmcro-specialty",
+  "version": "1.0.0",
+  "description": "PMCR-O pmcro-specialty plugin",
+  "skills": [
+    {
+      "name": "property-preservation",
+      "path": "skills/property-preservation/SKILL.md"
+    },
+    {
+      "name": "career-evidence",
+      "path": "skills/career-evidence/SKILL.md"
+    },
+    {
+      "name": "skill-creator",
+      "path": "skills/skill-creator/SKILL.md"
+    },
+    {
+      "name": "powershell-expert",
+      "path": "skills/powershell-expert/SKILL.md"
+    },
+    {
+      "name": "git",
+      "path": "skills/git/SKILL.md"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+# Provider Resolution Manifest
+# Maps PMCR-O capabilities to MCP providers.
+# The Maker dispatches to capabilities (Filesystem, Terminal, Browser).
+# The resolver picks the best available provider at runtime.
+# Changing providers requires only this file — no agent code changes.
+
+version: "1.0.0"
+
+# Default provider strategy: "preferred" (try preferred first, fall back)
+# or "strict" (only preferred, fail if unavailable)
+strategy: preferred
+
+capabilities:
+  filesystem:
+    description: "Read, write, search, and organize files"
+    preferred: desktop-commander
+    providers:
+      desktop-commander:
+        transport: stdio
+        description: "Desktop Commander MCP — local MCP server with full filesystem access"
+        binding: skills/desktop-commander/bindings/desktop-commander.yaml
+        status: available  # pending | available | unavailable
+      mcp-filesystem:
+        transport: http
+        description: "Custom MCP filesystem server running under Aspire"
+        endpoint: "http://mcp-filesystem/mcp"
+        status: available
+
+  terminal:
+    description: "Execute shell commands and manage processes"
+    preferred: desktop-commander
+    providers:
+      desktop-commander:
+        transport: stdio
+        description: "Desktop Commander MCP — PowerShell, cmd, REPL support"
+        binding: skills/desktop-commander/bindings/desktop-commander.yaml
+        status: pending
+      mcp-terminal:
+        transport: http
+        description: "Custom MCP terminal server running under Aspire"
+        endpoint: "http://mcp-terminal/mcp"
+        status: available
+
+  browser:
+    description: "Web scraping and search"
+    preferred: desktop-commander
+    providers:
+      desktop-commander:
+        transport: stdio
+        description: "Desktop Commander — scrape + Google search via Serper"
+        binding: skills/desktop-commander/bindings/desktop-commander.yaml
+        status: pending
+      mcp-playwright:
+        transport: http
+        description: "Custom MCP Playwright server running under Aspire"
+        endpoint: "http://mcp-playwright/mcp"
+        status: available
+
+  codeact:
+    description: "Sandboxed code execution"
+    preferred: hyperlight
+    providers:
+      hyperlight:
+        transport: in-process
+        description: "Hyperlight WASM sandbox running in-process"
+        status: available
+
+# When Desktop Commander becomes available:
+# Tool names are already identical — custom MCP servers expose
+# desktop-commander__read_file, desktop-commander__start_process, etc.
+# The Maker dispatches to "start_process". The binding maps to the
+# same name regardless of which MCP server handles it.
+# Zero code changes. Just start Desktop Commander and flip status.

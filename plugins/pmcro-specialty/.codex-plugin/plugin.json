@@ -1,0 +1,6 @@
+{
+  "name": "pmcro-specialty",
+  "version": "1.0.0",
+  "description": "Specialty skills: powershell-expert, property-preservation, career-evidence, skill-creator",
+  "skills": ["./skills/"]
+}

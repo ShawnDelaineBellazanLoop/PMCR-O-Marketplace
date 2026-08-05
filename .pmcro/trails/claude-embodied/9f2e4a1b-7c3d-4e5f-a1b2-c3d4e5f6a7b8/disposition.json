@@ -1,0 +1,11 @@
+{
+  "TrailId": "9f2e4a1b-7c3d-4e5f-a1b2-c3d4e5f6a7b8",
+  "SeedIntent": "Investigate the minimal field-mapping needed for trail-indexer and pattern-learner to correctly read real sealed trails under .pmcro/trails/{subjectAgentName}/{trailId}/, given the verified real schema in LoopFrame.cs and ITrailWriter.cs. Do not modify either skill's SKILL.md yet -- this cycle is investigation and a concrete field-mapping recommendation only. TYPE2, non-mutating.",
+  "Disposition": "Accept",
+  "FinalOutput": "Field-mapping table produced (see 01-reflect.jsonl FinalOutput). 1 of 4 template assumptions maps cleanly, 1 maps with a caveat (Halt), 2 require extraction logic rewritten against real field names (SeedIntentFrame collapse, ObservationFrame replaced by GroundTruth/FailureEvidence).",
+  "RetryContext": null,
+  "HaltReason": null,
+  "EarnedConstraints": [],
+  "CycleNumber": 1,
+  "NextSeedIntent": "Patch trail-indexer/SKILL.md and pattern-learner/SKILL.md's frame-vocabulary sections using this cycle's field-mapping table, then re-verify by running trail-indexer against a real live trail (.pmcro/trails/cto/4782c166-125d-40ff-aaf3-f2e339ff5f68/) before either skill is considered wired to this project."
+}

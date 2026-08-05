@@ -1,0 +1,6 @@
+{
+  "trail_id": "0dd2616a-ff49-4271-8727-210b23593751",
+  "disposition": "accept",
+  "summary": "Verified on disk that identity.json's canonical_pmcro_root/canonical_laws/canonical_constraints/canonical_agents already point to W:/PMCR_O/PMCR-O-Marketplace/.pmcro, not canonical W:/PMCR_O/PMCR-O. No code/config change was needed -- the fix predates this trail. This trail exists to close the process gap: the fix had no sealed trail backing it until now.",
+  "sealed_at": "2026-08-05T00:00:00Z"
+}

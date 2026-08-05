@@ -1,0 +1,33 @@
+{
+  "schema": "pmcro-earned-constraints-v1",
+  "last_updated": "2026-05-30",
+  "constraints": [
+    {
+      "id": "EC-TRAIL-001",
+      "source_cycle": "pmcro-cycle-20260530-001",
+      "source_fracture": "FRAC-TRAIL-DEFER-001",
+      "scope": "persistent",
+      "severity": "MEDIUM",
+      "rule": "Trail frames (plan, make, check, reflect, cycle-summary) MUST be written to .pmcro/trails/{cycle_id}/ immediately after every ACCEPT verdict. Do not defer trail writing until the next user message. Orchestrator writes trail before responding with the ACCEPT summary.",
+      "law_anchor": "EC-010"
+    },
+    {
+      "id": "EC-MAF-VELOCITY-001",
+      "source_cycle": "pmcro-cycle-20260530-001",
+      "source_fracture": null,
+      "scope": "persistent",
+      "severity": "LOW",
+      "rule": "MAF (Microsoft.Agents.AI) is shipping minor versions every 2-4 days in the May 2026 period. At the start of every session, re-validate maf_version against NuGet before any code or documentation work begins. Do not assume the pinned version in identity.json is current.",
+      "law_anchor": "EC-018"
+    },
+    {
+      "id": "EC-2026-08-05-001",
+      "source_cycle": "trails/cto/d706d932-bd69-4146-8b84-52eccc5598b0",
+      "source_fracture": "FRAC-TRAIL-FORMAT-001",
+      "scope": "persistent",
+      "severity": "MEDIUM",
+      "rule": "Conversational/claude-web sessions must seal trails in the same GUID-folder + phase-JSONL (Planner/Maker/Checker/Reflector) + _sealed.json format used by the compiled Orchestrator, not as standalone seal.json/frame.md narrative files under trails/claude-web/. A recap describing an ACCEPT disposition is not itself a sealed trail. At least 5 prior claude-web trails (marketplace-consolidation, canonical-skills-and-pmcro-fold-in, engine-commands-resolution, marketplace-plugin-completion, pmcro-scaffold-scoping) violate this and are pending re-seal audit.",
+      "law_anchor": null
+    }
+  ]
+}

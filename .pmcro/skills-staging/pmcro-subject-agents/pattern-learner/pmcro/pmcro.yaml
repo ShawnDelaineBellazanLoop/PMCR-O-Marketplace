@@ -1,0 +1,9 @@
+﻿skill: pattern-learner
+inherits: ../../..
+memory: memory/
+workflows: workflows/
+policies: policies/
+trails: trails/
+templates: templates/
+registry: registry/
+

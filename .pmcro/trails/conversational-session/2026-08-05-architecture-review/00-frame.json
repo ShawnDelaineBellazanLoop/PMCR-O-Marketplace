@@ -1,0 +1,7 @@
+{
+  "trail_id": "2026-08-05-architecture-review",
+  "subject_agent": "conversational-session",
+  "seed_intent": "Resume PMCR-O work after ~1 month away: build career-evidence skill for job applications, read/verify the actual Colony architecture, resolve open questions in the design docs.",
+  "started_utc": "2026-08-05T00:00:00Z",
+  "note_on_authenticity": "This trail was reconstructed after the fact from a conversational chat session (Claude.ai), not produced by the real .NET PmcroLoop.cs runtime. ActionDispatched is false throughout because no real DispatchType1Async call occurred -- Desktop Commander/Filesystem MCP tool calls happened directly in-conversation, outside the Orchestrator's own dispatch path. Treat this as a human-readable record of the session's reasoning, not as ground-truth-equivalent to a runtime-sealed trail."
+}

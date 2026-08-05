@@ -1,0 +1,29 @@
+{
+    "description": "PMCR-O pmcro-legacy plugin — skills folded in from canonical W:\\PMCR_O\\PMCR-O during the 2026-08-05 consolidation, not yet re-sorted into their proper plugin buckets.",
+    "name": "pmcro-legacy",
+    "version": "1.0.0",
+    "skills": [
+        { "name": "checker-agent", "path": "skills/checker-agent/SKILL.md" },
+        { "name": "codeact-agent", "path": "skills/codeact-agent/SKILL.md" },
+        { "name": "cognitive-trails", "path": "skills/cognitive-trails/SKILL.md" },
+        { "name": "dependency-resolver", "path": "skills/dependency-resolver/SKILL.md" },
+        { "name": "desktop-commander", "path": "skills/desktop-commander/SKILL.md" },
+        { "name": "domain-specialist", "path": "skills/domain-specialist/SKILL.md" },
+        { "name": "filesystem-agent", "path": "skills/filesystem-agent/SKILL.md" },
+        { "name": "filesystem-mcp", "path": "skills/filesystem-mcp/SKILL.md" },
+        { "name": "framework-evolution", "path": "skills/framework-evolution/SKILL.md" },
+        { "name": "maker-agent", "path": "skills/maker-agent/SKILL.md" },
+        { "name": "mcp-server-template", "path": "skills/mcp-server-template/SKILL.md" },
+        { "name": "orchestrator-agent", "path": "skills/orchestrator-agent/SKILL.md" },
+        { "name": "pattern-learner", "path": "skills/pattern-learner/SKILL.md" },
+        { "name": "planner-agent", "path": "skills/planner-agent/SKILL.md" },
+        { "name": "playwright-agent", "path": "skills/playwright-agent/SKILL.md" },
+        { "name": "playwright-mcp", "path": "skills/playwright-mcp/SKILL.md" },
+        { "name": "pmcro-framework", "path": "skills/pmcro-framework/SKILL.md" },
+        { "name": "reflector-agent", "path": "skills/reflector-agent/SKILL.md" },
+        { "name": "source-dump-generator", "path": "skills/source-dump-generator/SKILL.md" },
+        { "name": "terminal-agent", "path": "skills/terminal-agent/SKILL.md" },
+        { "name": "terminal-mcp", "path": "skills/terminal-mcp/SKILL.md" },
+        { "name": "trail-indexer", "path": "skills/trail-indexer/SKILL.md" }
+    ]
+}

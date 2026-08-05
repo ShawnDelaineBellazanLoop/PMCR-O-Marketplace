@@ -1,0 +1,7 @@
+{
+  "Cycle": 1,
+  "Model": "qwen3:8b",
+  "PromptTokens": 1392,
+  "CompletionTokens": 2644,
+  "TotalTokens": 4036
+}

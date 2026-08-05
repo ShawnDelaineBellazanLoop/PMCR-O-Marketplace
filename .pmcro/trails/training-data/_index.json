@@ -1,0 +1,95 @@
+{
+  "generated": "2026-07-22T00:09:00+00:00",
+  "sourceData": [
+    "data-6343f11f (account 831e2a17)",
+    "data-74e75774 (account 3483106e)",
+    "data-b69bb8be (account 6e703baf)",
+    "data-3edd594a (account d7376267)",
+    "data-ee686d95 x2 (account 46815a1a)"
+  ],
+  "schemaSource": "ProjectName.Agents.AI.Core/Frames.cs + TrailStore.cs (verified from bootstrap source)",
+  "agentVoiceSource": "orchestrator-folder/orchestrator/agents/ (planner.md, maker.md, checker.md, reflector.md)",
+  "constraintLedgerSource": "orchestrator-folder/orchestrator/references/constraint-ledger.md",
+  "trails": [
+    {
+      "file": "td-001-skill-creator-audit.jsonl",
+      "domain": "Skill governance",
+      "topic": "Auditing a skill definition file for format-law completeness",
+      "disposition": "Accept",
+      "earnedConstraint": null,
+      "highlights": ["Per-part format-law audit", "Partial-present gap honestly flagged", "EC-001 + EC-002 both applied correctly"],
+      "cycleCount": 1
+    },
+    {
+      "file": "td-002-nuget-version-drift.jsonl",
+      "domain": "Build infrastructure",
+      "topic": "Verifying NuGet package version stability for a fast-moving preview family",
+      "disposition": "Accept",
+      "earnedConstraint": null,
+      "highlights": ["SYNTHESIZED family-alignment claim correctly labeled", "TODO-VERIFY marker upheld", "Prior session self-report not trusted without live verification"],
+      "cycleCount": 1
+    },
+    {
+      "file": "td-003-succession-law-wiring.jsonl",
+      "domain": "Runtime architecture",
+      "topic": "Verifying end-to-end wiring of the Succession Law (NextSeedIntent baton)",
+      "disposition": "Accept",
+      "earnedConstraint": null,
+      "highlights": ["'Designed' vs 'wired' distinction explicitly made", "Night Shift runner searched and not found", "EC-VERIFY-FIRST-001 applied — prior session self-report not trusted"],
+      "cycleCount": 1
+    },
+    {
+      "file": "td-004-ec001-violation-caught.jsonl",
+      "domain": "Cognitive architecture design",
+      "topic": "Capability boundary design for Orchestrator vs workflow substrate — EC-001 violation caught and Retry issued",
+      "disposition": "Retry",
+      "earnedConstraint": "EC-001 (OccurrenceCount: 2 — threshold reached, O-Mode switch recommended)",
+      "highlights": ["Live EC-001 violation caught mid-cycle", "NEEDS-REVISION disposition correctly issued", "O-Mode switch to iterative-refinement recommended", "Error becomes next cycle's seed intent"],
+      "cycleCount": 1
+    },
+    {
+      "file": "td-005-mcp-false-positive.jsonl",
+      "domain": "Infrastructure reliability",
+      "topic": "Establishing a write-verification law for MCP filesystem false-positive success returns",
+      "disposition": "Accept",
+      "earnedConstraint": "EC-004 (OccurrenceCount: 3 — threshold met, constraint crystallized)",
+      "highlights": ["Three-incident corpus confirmed same failure mode", "Write Verification Law stated in 'I always' imperative form", "New EC crystallized with honest occurrence count"],
+      "cycleCount": 1
+    },
+    {
+      "file": "td-006-agent-template-loader.jsonl",
+      "domain": "Governance design",
+      "topic": "Fail-open vs fail-closed design decision for AgentTemplateLoader startup",
+      "disposition": "Accept",
+      "earnedConstraint": null,
+      "highlights": ["Governance-grounded recommendation with falsifiable condition", "SYNTHESIZED inference correctly labeled, not promoted to law", "Elicitation recommended as next O-Mode"],
+      "cycleCount": 1
+    },
+    {
+      "file": "td-007-everything-as-agent.jsonl",
+      "domain": "Everything-as-Agent (EaA)",
+      "topic": "Structural test of EaA philosophy against a non-software domain (ChopChop lawn service)",
+      "disposition": "Accept",
+      "earnedConstraint": null,
+      "highlights": ["Four-phase structural test against real domain", "TYPE1/TYPE2 maps to commercial commitments (SYNTHESIZED)", "EaA demonstrated as testable architectural property, not just philosophy"],
+      "cycleCount": 1
+    },
+    {
+      "file": "td-008-trail-as-product.jsonl",
+      "domain": "Commercial architecture",
+      "topic": "Structural requirements for a sealed trail to be externally licensable",
+      "disposition": "Accept",
+      "earnedConstraint": null,
+      "highlights": ["Cryptographic immutability gap honestly identified", "EC-001 identified as product quality criterion, not just internal governance", "Two PARTIALLY PRESENT gaps named and seeded forward"],
+      "cycleCount": 1
+    }
+  ],
+  "qualityNotes": {
+    "schemaConformance": "All 8 trails conform to Frames.cs + TrailStore.cs schema (PlannerFrame, MakerFrame, CheckerFrame, ReflectorFrame, SealedCycle, Baton, EarnedConstraint, GroundTruth). PascalCase field names per .NET System.Text.Json convention.",
+    "voiceConformance": "All frames use 'I am the [Role], cycle N' first-person opening per agent definition files. Planner stays at cognitive layer (EC-001). Maker surfaces gaps mid-output. Checker uses VERIFIED/SYNTHESIZED/UNVERIFIED/CONTRADICTED per-claim labels. Reflector uses five-part constraint format law when earning.",
+    "dispositionVariety": "6 Accept, 1 Retry (with NEEDS-REVISION), 1 inherited Halt (from existing meta-architecture trail). Retry cycle demonstrates the loop correctly seeding the error as the next intent.",
+    "earnedConstraintVariety": "2 cycles crystallize earned constraints: td-004 triggers EC-001 recurrence (OccurrenceCount 2, O-Mode switch recommended); td-005 earns a new EC-004 (OccurrenceCount 3, Write Verification Law). Remaining cycles explicitly decline to fabricate unearned constraints.",
+    "groundTruthPattern": "All 8 Maker frames carry a GroundTruth record with VerificationMethod, Verified, and Evidence fields. SYNTHESIZED inferences are labeled in both Maker and Checker frames rather than carrying VERIFIED confidence.",
+    "ec002Compliance": "All 8 cycles apply EC-002: every Checker frame notes that Reflector is one recursive layer higher due to full first-person frame chain, and every Reflector frame acknowledges this structural property explicitly."
+  }
+}

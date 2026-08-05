@@ -1,0 +1,13 @@
+﻿{
+  "skill": "chief-of-staff",
+  "inherits": "../../..",
+  "pmcro": {
+    "memory": "memory",
+    "workflows": "workflows",
+    "policies": "policies",
+    "trails": "trails",
+    "templates": "templates",
+    "registry": "registry"
+  }
+}
+

@@ -1,0 +1,42 @@
+{
+  "cycle_id": "pmcro-cycle-20260530-003",
+  "thoughtlock": "2026-05-30",
+  "seed_intent": "Extend PMCRO.Mcp.Terminal to fully implement all three MCP pillars: Tools (exists), Resources, and Prompts",
+  "loops_executed": 1,
+  "final_verdict": "ACCEPT",
+  "files_created": [
+    "A:\\PMCR-O\\src\\Mcps\\PMCRO.Mcp.Terminal\\Resources\\TerminalResources.cs",
+    "A:\\PMCR-O\\src\\Mcps\\PMCRO.Mcp.Terminal\\Prompts\\TerminalPrompts.cs",
+    "A:\\PMCR-O\\skills\\terminal-mcp\\SKILL.md"
+  ],
+  "files_modified": [
+    "A:\\PMCR-O\\src\\Mcps\\PMCRO.Mcp.Terminal\\Tools\\TerminalTools.cs",
+    "A:\\PMCR-O\\src\\Mcps\\PMCRO.Mcp.Terminal\\Program.cs"
+  ],
+  "mcp_primitives_delivered": {
+    "tools": {
+      "type1": ["terminal.run_command", "terminal.run_script", "terminal.kill"],
+      "type2": ["terminal.get_status", "terminal.get_environment", "terminal.which"]
+    },
+    "resources": {
+      "direct": ["terminal://status", "terminal://environment", "terminal://config", "terminal://skill"],
+      "templated": ["terminal://history/{slot}"]
+    },
+    "prompts": ["terminal-run-command", "terminal-debug-failure", "terminal-plan-commands"]
+  },
+  "checker_scores": {
+    "completeness": 1.0,
+    "correctness": 1.0,
+    "law_compliance": 1.0
+  },
+  "earned_constraints": [],
+  "key_knowledge_extracted": [
+    "MCP C# SDK 1.3.0 attribute-based discovery is symmetric for all three pillars — WithToolsFromAssembly, WithResourcesFromAssembly, WithPromptsFromAssembly.",
+    "TextResourceContents is the correct concrete return type for resource methods.",
+    "McpServerPrompt with IEnumerable<ChatMessage> is the multi-turn prompt pattern.",
+    "ServerInfo + ServerInstructions set on AddMcpServer() are sent during client init handshake.",
+    "Static ConcurrentDictionary shared between TerminalTools and TerminalResources is correct for in-process session-scoped history.",
+    "terminal://skill resource implements Progressive Disclosure — SKILL.md travels with the server, not the client."
+  ],
+  "sealed_at": "2026-05-30T00:35:00Z"
+}
