@@ -1,12 +1,13 @@
 {
-    "name": "pmcro-colony",
-    "owner": {
-        "name": "Shawn Delaine Bellazan",
-        "url": "https://github.com/ShawnDelaineBellazanLoop"
-    },
-    "description": "PMCR-O Colony - Agent Skills Marketplace",
-    "version": "1.0.0",
-    "plugins": [
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "pmcro-colony",
+  "owner": {
+    "name": "Shawn Delaine Bellazan",
+    "email": "shawn2024bellazan@gmail.com"
+  },
+  "description": "PMCR-O Colony — C-Suite, PMCR-O engine, and specialty skills. Each domain is documentation-only scope, consulted by pmcro-loop when a cycle's true_intent falls under it.",
+  "version": "1.0.0",
+  "plugins": [
         {
             "name": "pmcro-csuite",
             "source": "./plugins/pmcro-csuite",
