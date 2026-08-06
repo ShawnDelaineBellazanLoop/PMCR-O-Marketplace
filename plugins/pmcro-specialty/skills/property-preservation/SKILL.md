@@ -3,7 +3,8 @@ name: property-preservation
 description: "Property Preservation domain skill — Tooensure Recovery Services field/contractor execution: work orders, bid writing, inspection reports, photo analysis, compliance, vendor coordination, and county data extraction."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=property-preservation."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # Property Preservation Domain Skill

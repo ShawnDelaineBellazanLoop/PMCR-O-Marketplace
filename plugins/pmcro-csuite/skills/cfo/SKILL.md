@@ -3,7 +3,8 @@ name: cfo
 description: "CFO domain skill — budgeting, cash flow analysis, forecasting, cost optimization, financial reporting, and investor updates. Load this skill when the cycle's domain scope is CFO: any task concerning what something costs, whether it's in budget, how to report on financials, or what the numbers say about a decision."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent or any execution agent dispatched by PMCR-O when domain=cfo. Scripts in scripts/ run inside the Hyperlight sandbox (read-only context); any write output surfaces through the standard HIL approval gate."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # CFO Domain Skill

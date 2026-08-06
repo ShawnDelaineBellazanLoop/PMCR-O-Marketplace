@@ -3,7 +3,8 @@ name: clo
 description: "CLO domain skill — contract review, policy enforcement, risk analysis, regulatory compliance, privacy reviews, and IP protection."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=clo."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # CLO Domain Skill

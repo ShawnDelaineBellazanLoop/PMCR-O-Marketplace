@@ -3,7 +3,8 @@ name: chief-of-staff
 description: "Chief of Staff domain skill — priority triage, cross-agent coordination, brief writing, and filtering agent output before CEO review."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=chief-of-staff."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # Chief of Staff Domain Skill

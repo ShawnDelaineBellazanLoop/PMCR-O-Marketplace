@@ -3,7 +3,8 @@ name: cto
 description: "CTO domain skill — technical architecture, PMCR-O loop/skill-pack design and validation, security posture, DevOps pipelines, and incident response."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=cto."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # CTO Domain Skill

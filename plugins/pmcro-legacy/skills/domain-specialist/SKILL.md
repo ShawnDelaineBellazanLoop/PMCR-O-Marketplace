@@ -3,7 +3,8 @@ name: domain-specialist
 description: "Domain Specialist skill — chat distillation, pattern extraction, memory hydration, and LLM session export processing."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=domain-specialist."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # Domain Specialist Skill

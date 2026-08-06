@@ -3,7 +3,8 @@ name: cmo
 description: "CMO domain skill — content creation, social media, campaign management, SEO, and brand voice consistency."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=cmo."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # CMO Domain Skill

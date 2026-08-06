@@ -3,7 +3,8 @@ name: ceo
 description: "CEO domain skill — strategic direction, OKR management, compute/priority allocation, and approval of major cross-agent actions in the PMCR-O Colony."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=ceo."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # CEO Domain Skill

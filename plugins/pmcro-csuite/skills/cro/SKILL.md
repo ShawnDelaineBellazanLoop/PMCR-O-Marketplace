@@ -3,7 +3,8 @@ name: cro
 description: "CRO domain skill — lead generation, CRM automation, outreach, pipeline management, proposal writing, and deal closing."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=cro."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # CRO Domain Skill

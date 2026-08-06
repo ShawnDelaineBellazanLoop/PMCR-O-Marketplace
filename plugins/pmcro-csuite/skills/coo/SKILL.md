@@ -3,7 +3,8 @@ name: coo
 description: "COO domain skill — SOP creation, workflow automation, vendor management, compliance enforcement, resource allocation, and KPI dashboards."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=coo."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # COO Domain Skill

@@ -3,7 +3,8 @@ name: chro
 description: "CHRO domain skill — hiring pipelines, workforce planning, onboarding, performance reviews, culture documentation, and training design."
 version: 1.0.0
 compatibility: "MAF skill — loaded by codeact-agent when domain=chro."
-pattern_d: opt-in
+metadata:
+  pattern_d: opt-in
 ---
 
 # CHRO Domain Skill

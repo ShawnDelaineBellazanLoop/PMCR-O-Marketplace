@@ -1,5 +1,21 @@
-﻿{
-    "description":  "clo skill",
-    "name":  "clo",
-    "version":  "1.0.0"
+{
+  "name": "clo",
+  "displayName": "Chief Legal Officer",
+  "description": "Chief Legal Officer domain skill in the PMCR-O Colony.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Shawn Delaine Bellazan",
+    "email": "shawn2024bellazan@gmail.com"
+  },
+  "homepage": "https://github.com/ShawnDelaineBellazanLoop/PMCR-O-Marketplace",
+  "repository": "https://github.com/ShawnDelaineBellazanLoop/PMCR-O-Marketplace",
+  "license": "UNLICENSED",
+  "keywords": [
+    "pmcro",
+    "colony",
+    "clo",
+    "c-suite",
+    "executive-domain"
+  ],
+  "category": "executive"
 }
