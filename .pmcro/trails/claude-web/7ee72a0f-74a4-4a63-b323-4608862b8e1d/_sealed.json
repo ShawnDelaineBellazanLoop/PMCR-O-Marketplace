@@ -1,0 +1,13 @@
+{
+  "disposition": "Accept",
+  "baton": {
+    "NextSeedIntent": "Push consolidated changes (EC-PENDING-024, colony-laws.md, orchestrator AGENT.md/SKILL.md, marketplace.json v1.1.0) to GitHub.",
+    "OpenQuestion": null
+  },
+  "sealedAt": "2026-08-06T00:00:00+00:00",
+  "trailId": "7ee72a0f-74a4-4a63-b323-4608862b8e1d",
+  "cycleCount": 1,
+  "summary": "Made standing/default PMCR-O output format a real Colony law (COMPANY-008), full-strength per Shawn's explicit choice: every response with orchestrator/pmcro-loop loaded runs a real cycle and writes a sealed trail, no invocation, no 'just answer' bypass. Retired the bypass line in orchestrator/AGENT.md, updated orchestrator/SKILL.md's description, bumped marketplace.json and orchestrator plugin to 1.1.0. Shawn confirmed Accept in-conversation 2026-08-06.",
+  "earnedConstraints": []
+}
+

@@ -1,5 +1,5 @@
 # Colony Laws — PMCR-O Governance Corpus
-## Version: 2.1.0 | ThoughtLock: 2026-05-29 | Validated: 2026-05-29
+## Version: 2.2.0 | ThoughtLock: 2026-08-06 | Validated: 2026-08-06
 
 Every agent loads this file via `.pmcro/PMCRO.md` before executing.
 Laws are earned through production failures. Every EC- law has a fracture behind it.
@@ -196,6 +196,19 @@ Partial is not done. Almost done is LOOP. Goal binary satisfied = DONE.
 
 ---
 
+## COMPANY-008 — Standing PMCR-O Output Law
+
+Every response from an agent with `orchestrator`/`pmcro-loop` loaded runs
+a real Plan → Make → Check → Reflect cycle and writes a sealed trail
+(GUID-folder + phase-JSONL + `_sealed.json`, per EC-2026-08-05-001) by
+default. No invocation required. No "just answer" bypass — that escape
+hatch, formerly in `.pmcro\agents\orchestrator\AGENT.md`, is retired.
+EC-009 (MaxLoops = 3) and TYPE1/HIL-gating still apply inside the cycle.
+Full record: `laws/candidates/EC-PENDING-024-standing-pmcro-output-law.md`.
+HIL-approved by Shawn, 2026-08-06.
+
+---
+
 ## Fracture Registry
 
 | Fracture ID | Description | Fix |
@@ -208,3 +221,4 @@ Partial is not done. Almost done is LOOP. Goal binary satisfied = DONE.
 | FRAC-ASPIRE-BRAND-001 | Code/docs reference ".NET Aspire" | Rename to "Aspire" — dropped prefix as of 13.0 |
 | FRAC-TYPE1-ASPIRE-CLI-001 | Phase agent calls `aspire destroy`/`deploy`/`publish` | These are TYPE 1 — Orchestrator + HIL token only |
 | FRAC-MCP-RC-PROD-001 | Production code targets MCP spec 2026-07-28 RC | Use stable 2025-11-25 until RC is ratified |
+| FRAC-STANDING-FORMAT-001 | Agent skips full PMCR-O cycle/trail when orchestrator loaded | COMPANY-008 applies — no "just answer" bypass |

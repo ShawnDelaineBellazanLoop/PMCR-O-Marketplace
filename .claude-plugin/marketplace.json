@@ -6,7 +6,7 @@
     "email": "shawn2024bellazan@gmail.com"
   },
   "description": "PMCR-O Colony — C-Suite, PMCR-O engine, and specialty skills. Each domain is documentation-only scope, consulted by pmcro-loop when a cycle's true_intent falls under it.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "plugins": [
     {
       "name": "ceo",
@@ -73,9 +73,9 @@
     },
     {
       "name": "orchestrator",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "./plugins/pmcro-engine/skills/orchestrator",
-      "description": "The Orchestrate role of the PMCR-O loop — owns sequencing, loop-vs-seal, and EC-009 MaxLoops enforcement. Provides: orchestrator. Requires: planner, maker, checker, reflector, dependency-resolver.",
+      "description": "The Orchestrate role of the PMCR-O loop — owns sequencing, loop-vs-seal, and EC-009 MaxLoops enforcement. Per COMPANY-008 (standing law), runs a full cycle by default once loaded — no invocation required, no direct-answer bypass. Provides: orchestrator. Requires: planner, maker, checker, reflector, dependency-resolver.",
       "category": "engine",
       "displayName": "Orchestrator (PMCR-O Loop)"
     },
