@@ -1,4 +1,4 @@
-# Create agents/, commands/, and skills/ subdirectories for each skill plugin
+# Populate agents/, commands/, and skills/ with minimal content for each skill plugin
 $skillDirs = @(
     "plugins/pmcro-csuite/skills/ceo",
     "plugins/pmcro-csuite/skills/cfo",
@@ -45,37 +45,43 @@ $skillDirs = @(
 )
 
 foreach ($skillDir in $skillDirs) {
-    # Create agents directory
-    $agentsDir = Join-Path $skillDir "agents"
-    if (!(Test-Path $agentsDir)) {
-        New-Item -ItemType Directory -Path $agentsDir -Force | Out-Null
+    $name = Split-Path $skillDir -Leaf
+    
+    # Create agent file
+    $agentFile = Join-Path $skillDir "agents/$name.md"
+    if (!(Test-Path $agentFile)) {
+        @"
+# $name Agent
+
+This is the $name agent for the PMCR-O Colony.
+"@ | Set-Content -Path $agentFile -Encoding UTF8
     }
     
-    # Create commands directory
-    $commandsDir = Join-Path $skillDir "commands"
-    if (!(Test-Path $commandsDir)) {
-        New-Item -ItemType Directory -Path $commandsDir -Force | Out-Null
+    # Create command file
+    $commandFile = Join-Path $skillDir "commands/$name.md"
+    if (!(Test-Path $commandFile)) {
+        @"
+---
+description: "$name command"
+---
+
+# /$name
+
+This is the $name command.
+"@ | Set-Content -Path $commandFile -Encoding UTF8
     }
     
-    # Create skills directory
-    $skillsDir = Join-Path $skillDir "skills"
-    if (!(Test-Path $skillsDir)) {
-        New-Item -ItemType Directory -Path $skillsDir -Force | Out-Null
+    # Create skill file in skills/ directory
+    $skillFile = Join-Path $skillDir "skills/domain-scope.md"
+    if (!(Test-Path $skillFile)) {
+        @"
+# $name Domain Skill
+
+This is the $name domain skill.
+"@ | Set-Content -Path $skillFile -Encoding UTF8
     }
     
-    # Move SKILL.md to skills/domain-scope.md if it exists
-    $skillMd = Join-Path $skillDir "SKILL.md"
-    $domainSkillMd = Join-Path $skillsDir "domain-scope.md"
-    if (Test-Path $skillMd) {
-        if (!(Test-Path $domainSkillMd)) {
-            Move-Item $skillMd $domainSkillMd -Force
-            Write-Host "Moved: $skillMd -> $domainSkillMd"
-        } else {
-            Remove-Item $skillMd -Force
-        }
-    }
-    
-    Write-Host "Created structure for: $skillDir"
+    Write-Host "Populated: $skillDir"
 }
 
-Write-Host "`nDone! Structure created for $($skillDirs.Count) skills."
+Write-Host "`nDone! Populated $($skillDirs.Count) skills."
