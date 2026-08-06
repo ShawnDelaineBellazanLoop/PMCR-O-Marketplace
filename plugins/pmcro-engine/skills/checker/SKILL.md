@@ -43,11 +43,11 @@ make: <path to NN-make.jsonl>
 4. **Law-conformance** -- re-read the Colony Law block (four numbered laws:
    One Bounded Action Per Cycle, TYPE1/TYPE2 Discipline, Ground Truth
    Honesty, Action Scope) as embedded in the relevant subject agent's own
-   SKILL.md (e.g. `../../../pmcro-legacy/skills/terminal-agent/SKILL.md`,
-   `../../../pmcro-legacy/skills/filesystem-agent/SKILL.md`,
-   `../../../pmcro-legacy/skills/playwright-agent/SKILL.md` under the
-   pmcro-legacy plugin), cross-checked against the constraint ledger at
-   `../../../pmcro-legacy/skills/orchestrator-agent/references/constraint-ledger.md`
+   SKILL.md (e.g. `../terminal-agent/SKILL.md`,
+   `../filesystem-agent/SKILL.md`,
+   `../playwright-agent/SKILL.md` under the
+   pmcro-engine plugin), cross-checked against the constraint ledger at
+   `../orchestrator/references/constraint-ledger.md`
    -- against what Make actually did, not what the plan said it would do.
    There is no central `.agents/rules/` folder; Colony Law lives per
    subject-agent SKILL.md and the ledger is the cross-cutting record.

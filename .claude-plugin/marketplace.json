@@ -6,7 +6,7 @@
     "email": "shawn2024bellazan@gmail.com"
   },
   "description": "PMCR-O Colony — C-Suite, PMCR-O engine, and specialty skills. Each domain is documentation-only scope, consulted by pmcro-loop when a cycle's true_intent falls under it.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "plugins": [
     {
       "name": "ceo",
@@ -72,6 +72,22 @@
       "displayName": "Chief of Staff"
     },
     {
+      "name": "pmcro-framework",
+      "version": "2.1.0",
+      "source": "./plugins/pmcro-engine/skills/pmcro-framework",
+      "description": "Governance layer of the Tooensure Cognitive Stack. Declares the loop, the laws, the phase contracts, and the TYPE 1/2 boundary. Loaded by every agent in the stack, always, before any other skill.",
+      "category": "engine",
+      "displayName": "PMCR-O Framework (Governance)"
+    },
+    {
+      "name": "dependency-resolver",
+      "version": "1.0.0",
+      "source": "./plugins/pmcro-engine/skills/dependency-resolver",
+      "description": "Resolves which domain SKILL.md and which PMCR-O role-skills a cycle needs by walking metadata.pmcro_provides/pmcro_requires across the catalog. Invoked by orchestrator at the start of every cycle. Provides: dependency-resolver.",
+      "category": "engine",
+      "displayName": "Dependency Resolver"
+    },
+    {
       "name": "orchestrator",
       "version": "1.1.0",
       "source": "./plugins/pmcro-engine/skills/orchestrator",
@@ -110,6 +126,119 @@
       "description": "The Reflect role of the PMCR-O loop — crystallizes EarnedConstraints. Provides: reflector.",
       "category": "engine",
       "displayName": "Reflector (PMCR-O Loop)"
+    },
+    {
+      "name": "domain-specialist",
+      "version": "1.0.0",
+      "source": "./plugins/pmcro-specialty/skills/domain-specialist",
+      "description": "Chat distillation, pattern extraction, memory hydration, and LLM session export processing.",
+      "category": "specialty",
+      "displayName": "Domain Specialist"
+    },
+    {
+      "name": "property-preservation",
+      "version": "1.0.0",
+      "source": "./plugins/pmcro-specialty/skills/property-preservation",
+      "description": "Tooensure Recovery Services field/contractor execution: work orders, bid writing, inspection reports, vendor coordination, county data extraction.",
+      "category": "specialty",
+      "displayName": "Property Preservation"
+    },
+    {
+      "name": "skill-creator",
+      "source": "./plugins/pmcro-specialty/skills/skill-creator",
+      "description": "Packages a new command, sub-agent, domain, or PMCR-O role-skill into this repo's catalog convention. Requires: dependency-resolver.",
+      "category": "specialty",
+      "displayName": "Skill Creator"
+    },
+    {
+      "name": "plugin-creator",
+      "source": "./plugins/pmcro-specialty/skills/plugin-creator",
+      "description": "Scaffolds a brand-new top-level plugin package under plugins/<name>/ when a capability doesn't fit inside any existing plugin. Requires: dependency-resolver, skill-creator.",
+      "category": "specialty",
+      "displayName": "Plugin Creator"
+    },
+    {
+      "name": "git",
+      "source": "./plugins/pmcro-specialty/skills/git",
+      "description": "Whitelisted local version-control operations (status, add, commit, branch, diff, log) on a repository already on disk. No remote or history-rewriting operations.",
+      "category": "specialty",
+      "displayName": "Git (Local)"
+    },
+    {
+      "name": "career-evidence",
+      "source": "./plugins/pmcro-specialty/skills/career-evidence",
+      "description": "Gathers verifiable evidence of real programming history (local git, GitHub, corpus) into an honest, source-cited career timeline. Never fabricates dates or titles.",
+      "category": "specialty",
+      "displayName": "Career Evidence"
+    },
+    {
+      "name": "powershell-expert",
+      "source": "./plugins/pmcro-specialty/skills/powershell-expert",
+      "description": "Develops PowerShell scripts, tools, modules, and GUIs following Microsoft best practices, with live verification against PowerShell Gallery and Microsoft Docs.",
+      "category": "specialty",
+      "displayName": "PowerShell Expert"
+    },
+    {
+      "name": "codeact-agent",
+      "version": "1.0.0",
+      "source": "./plugins/pmcro-specialty/skills/codeact-agent",
+      "description": "The Colony's subject agent for Python code execution via Hyperlight sandbox. Read-only tool scope.",
+      "category": "specialty",
+      "displayName": "CodeAct Agent"
+    },
+    {
+      "name": "cognitive-trails",
+      "version": "2.1.0",
+      "source": "./plugins/pmcro-specialty/skills/cognitive-trails",
+      "description": "Living teaching agent for the PMCR-O Cognitive Architecture and Microsoft Agent Framework design patterns, from zero-to-agent through Colony Laws.",
+      "category": "specialty",
+      "displayName": "Cognitive Trails (Teaching)"
+    },
+    {
+      "name": "pattern-learner",
+      "version": "1.1.0",
+      "source": "./plugins/pmcro-specialty/skills/pattern-learner",
+      "description": "Meta-Reflector — reads multiple sealed PMCR-O trails and clusters recurring patterns across cycles and subjects, with evidence thresholds. Read-only, requires human gate to promote findings.",
+      "category": "specialty",
+      "displayName": "Pattern Learner"
+    },
+    {
+      "name": "trail-indexer",
+      "version": "1.1.0",
+      "source": "./plugins/pmcro-specialty/skills/trail-indexer",
+      "description": "Reads sealed PMCR-O trails and produces a structured index of seed intent, disposition, cycle count, and key artifacts. Read-only.",
+      "category": "specialty",
+      "displayName": "Trail Indexer"
+    },
+    {
+      "name": "mcp-server-template",
+      "source": "./plugins/pmcro-specialty/skills/mcp-server-template",
+      "description": "Scaffolds a new subject-agent MCP server matching the proven three-pillar structure (Tools/Resources/Prompts) already used by the Filesystem, Playwright, and Terminal servers.",
+      "category": "specialty",
+      "displayName": "MCP Server Template"
+    },
+    {
+      "name": "source-dump-generator",
+      "version": "1.0.0",
+      "source": "./plugins/pmcro-specialty/skills/source-dump-generator",
+      "description": "Generates comprehensive or compact single-file source code dumps of the PMCR-O repository for analysis, transfer, or archival.",
+      "category": "specialty",
+      "displayName": "Source Dump Generator"
+    },
+    {
+      "name": "desktop-commander",
+      "source": "./plugins/pmcro-specialty/skills/desktop-commander",
+      "description": "Canonical capability contract for the Desktop Commander MCP provider — filesystem, terminal, browser, and process management, mapped to PMCR-O capabilities via a swappable binding.",
+      "category": "specialty",
+      "displayName": "Desktop Commander (Capability Contract)"
+    },
+    {
+      "name": "framework-evolution",
+      "version": "1.1.0",
+      "source": "./plugins/pmcro-specialty/skills/framework-evolution",
+      "description": "Seed-intent skill that triggers a full PMCR-O loop studying and refining the framework itself against Anthropic and Microsoft Agent Framework standards, crystallizing findings back into governance. Read Phase paths point at the live-app stack (W:\\PMCR_O\\PMCR-O).",
+      "category": "specialty",
+      "displayName": "Framework Evolution"
     },
     {
       "name": "dotnet",

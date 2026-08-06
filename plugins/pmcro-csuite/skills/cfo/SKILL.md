@@ -66,7 +66,7 @@ proactively. They are progressive disclosure — load on demand.
 When this skill is invoked as the top-level entry point (not a Pattern B
 mid-plan consult), it may run its own bound Plan-Make-Check-Reflect loop and
 seal its own trail under `.pmcro/trails/cfo/<uuid>/`. See
-`../../../pmcro-legacy/skills/orchestrator-agent/references/pattern-d-macro-loop.md` for the exact
+`../../../pmcro-engine/skills/orchestrator/references/pattern-d-macro-loop.md` for the exact
 trigger conditions and disclosure requirements. Mid-plan consults are
 unaffected: still Pattern B, no loop, no seal.
 

@@ -1,6 +1,0 @@
-{
-  "description": "PMCR-O pmcro-legacy plugin — skills folded in from canonical W:\\PMCR_O\\PMCR-O during the 2026-08-05 consolidation, not yet re-sorted into their proper plugin buckets.",
-  "name": "pmcro-legacy",
-  "version": "1.0.0",
-  "skills": ["./skills/"]
-}
