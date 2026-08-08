@@ -1,0 +1,6 @@
+{
+  "schema": "pmcro-runtime-config-v1",
+  "last_updated": "2026-08-06",
+  "MaxLoops": 3,
+  "note": "MaxLoops bounds Orchestrator-only True Intent extraction passes (OMODE-001/002/003) and general cycle retry depth. EC-001 requires this file present before any cycle opens."
+}

@@ -1,0 +1,9 @@
+﻿skill: dependency-resolver
+inherits: ../../..
+memory: memory/
+workflows: workflows/
+policies: policies/
+trails: trails/
+templates: templates/
+registry: registry/
+

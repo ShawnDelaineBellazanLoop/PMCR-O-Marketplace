@@ -1,0 +1,11 @@
+{
+  "TrailId": "df3a1fd2-7a94-4a8e-a5b9-5995b60b8523",
+  "SeedIntent": "ZQXJ77 marker: list the contents of directory ZQXJ77-nonexistent-dir",
+  "Disposition": "Halt",
+  "FinalOutput": "{\n  \u0022final_output\u0022: \u0022\u0022,\n  \u0022signal\u0022: \u0022RETRY\u0022,\n  \u0022improvements\u0022: [\n    {\n      \u0022area\u0022: \u0022Input clarity\u0022,\n      \u0022suggestion\u0022: \u0022Please provide more specific instructions or context to enable accurate completion of the task.\u0022\n    }\n  ],\n  \u0022next_seed_intent\u0022: null\n}",
+  "RetryContext": null,
+  "HaltReason": "Declarative cycle ended without GOAL_COMPLETED",
+  "EarnedConstraints": [],
+  "CycleNumber": 1,
+  "NextSeedIntent": null
+}

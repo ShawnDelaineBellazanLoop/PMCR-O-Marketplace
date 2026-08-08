@@ -126,31 +126,20 @@ export default function DomainSelector({
   onChange: (id: string | null) => void;
 }) {
   return (
-    <div className="domain-pills" role="radiogroup" aria-label="Route to C-Suite domain">
-      <button
-        type="button"
-        className="domain-pill"
-        data-active={value === null}
-        onClick={() => onChange(null)}
-        title="No domain tag — default filesystem-agent routing"
+    <div className="context-control">
+      <label htmlFor="domain-context">Routing context</label>
+      <select
+        id="domain-context"
+        value={value ?? ""}
+        onChange={(event) => onChange(event.target.value || null)}
       >
-        <span className="domain-pill-dot" style={{ background: "var(--colony-border-bright)" }} />
-        Untagged
-      </button>
-      {DOMAINS.map((d) => (
-        <button
-          key={d.id}
-          type="button"
-          className="domain-pill"
-          data-active={value === d.id}
-          onClick={() => onChange(d.id)}
-          title={`Tag this request as ${d.label} — writes to .pmcro/trails/${d.id}/`}
-          style={value === d.id ? { borderColor: d.color, color: d.color, background: d.color + "14" } : undefined}
-        >
-          <span className="domain-pill-dot" style={{ background: d.color }} />
-          {d.abbr}
-        </button>
-      ))}
+        <option value="">Untagged · default filesystem agent</option>
+        {DOMAINS.map((domain) => (
+          <option key={domain.id} value={domain.id}>
+            {domain.label} · {domain.loop} emphasis
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

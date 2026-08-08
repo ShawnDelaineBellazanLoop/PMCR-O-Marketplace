@@ -1,0 +1,21 @@
+{
+  "name": "cro",
+  "displayName": "Chief Revenue Officer",
+  "description": "Chief Revenue Officer domain skill in the PMCR-O Colony.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Shawn Delaine Bellazan",
+    "email": "shawn2024bellazan@gmail.com"
+  },
+  "homepage": "https://github.com/ShawnDelaineBellazanLoop/PMCR-O-Marketplace",
+  "repository": "https://github.com/ShawnDelaineBellazanLoop/PMCR-O-Marketplace",
+  "license": "UNLICENSED",
+  "keywords": [
+    "pmcro",
+    "colony",
+    "cro",
+    "c-suite",
+    "executive-domain"
+  ],
+  "category": "executive"
+}

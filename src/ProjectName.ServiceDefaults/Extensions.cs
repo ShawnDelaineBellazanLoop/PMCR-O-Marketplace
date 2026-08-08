@@ -111,7 +111,11 @@ namespace ProjectName.ServiceDefaults
         {
             // Adding health checks endpoints to applications in non-development environments has security implications.
             // See https://aka.ms/dotnet/aspire/healthchecks for details before enabling these endpoints in non-development environments.
-            if (app.Environment.IsDevelopment())
+            var configuredHealthEndpoints = app.Configuration["HealthChecks:ExposeEndpoints"];
+            var exposeHealthEndpoints = bool.TryParse(configuredHealthEndpoints, out var configured)
+                ? configured
+                : app.Environment.IsDevelopment();
+            if (exposeHealthEndpoints)
             {
                 // All health checks must pass for app to be considered ready to accept traffic after starting
                 app.MapHealthChecks(HealthEndpointPath);

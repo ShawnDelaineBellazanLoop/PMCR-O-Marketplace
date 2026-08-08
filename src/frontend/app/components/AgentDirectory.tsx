@@ -275,6 +275,8 @@ export default function AgentDirectory({
             key={id}
             type="button"
             className="directory-nav-tab"
+            role="tab"
+            aria-selected={navFilter === id}
             data-active={navFilter === id}
             onClick={() => setNavFilter(id)}
           >

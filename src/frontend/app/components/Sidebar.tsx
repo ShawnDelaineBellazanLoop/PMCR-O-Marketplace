@@ -126,18 +126,18 @@ type NavGroup = { label: string; items: readonly NavItem[] };
 
 const NAV_GROUPS: readonly NavGroup[] = [
   {
-    label: "Cycle",
+    label: "Create",
     items: [
-      { href: "#console", label: "Console", icon: IconConsole },
-      { href: "#agents", label: "Subject agents", icon: IconAgents },
+      { href: "/", label: "Console", icon: IconConsole },
+      { href: "/harness", label: "Harness", icon: IconHarness },
     ],
   },
   {
-    label: "Platform",
+    label: "Explore",
     items: [
-      { href: "#harness", label: "Harness", icon: IconHarness },
-      { href: "#skills", label: "Skills", icon: IconSkills },
-      { href: "#trails", label: "Trails", icon: IconTrails },
+      { href: "/skills", label: "Skills", icon: IconSkills },
+      { href: "/trails", label: "Trails", icon: IconTrails },
+      { href: "/platform", label: "Platform", icon: IconConsole },
     ],
   },
   {
@@ -174,29 +174,12 @@ export default function Sidebar() {
     window.localStorage.setItem(SIDEBAR_COLLAPSE_KEY, String(collapsed));
   }, [collapsed]);
 
-  const [activeHref, setActiveHref] = useState("#console");
+  const pathname = usePathname();
+  const [activeHref, setActiveHref] = useState(pathname || "/");
 
-  // Scroll-spy: whichever section id is crossing the upper-middle band of
-  // the viewport becomes the active nav link. rootMargin biases the
-  // trigger line to ~40% down from the top so a section is marked active
-  // as soon as it's the dominant thing on screen, not only once fully
-  // scrolled past.
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) {
-          setActiveHref(`#${visible[0].target.id}`);
-        }
-      },
-      { rootMargin: "-35% 0px -55% 0px", threshold: 0 },
-    );
-    const els = ALL_SECTION_IDS
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+    setActiveHref(pathname || "/");
+  }, [pathname]);
 
   const { agent } = useAgent({ agentId: "Orchestrator" });
   const state = agent.state as PmcroCycleState | undefined;
@@ -229,30 +212,19 @@ export default function Sidebar() {
       {NAV_GROUPS.map((group) => (
         <nav className="sidebar-nav" key={group.label} aria-label={group.label}>
           <div className="sidebar-section-label sidebar-label-text">{group.label}</div>
-          {group.items.map(({ href, label, icon: Icon }) =>
-            href.startsWith("#") ? (
-              <a
-                key={href}
-                className="sidebar-link"
-                data-active={activeHref === href}
-                href={href}
-                title={collapsed ? label : undefined}
-              >
-                <Icon />
-                <span className="sidebar-label-text">{label}</span>
-              </a>
-            ) : (
-              <Link
-                key={href}
-                className="sidebar-link"
-                href={href}
-                title={collapsed ? label : undefined}
-              >
-                <Icon />
-                <span className="sidebar-label-text">{label}</span>
-              </Link>
-            ),
-          )}
+          {group.items.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              className="sidebar-link"
+              aria-current={activeHref === href ? "page" : undefined}
+              data-active={activeHref === href}
+              href={href}
+              title={collapsed ? label : undefined}
+            >
+              <Icon />
+              <span className="sidebar-label-text">{label}</span>
+            </Link>
+          ))}
         </nav>
       ))}
 

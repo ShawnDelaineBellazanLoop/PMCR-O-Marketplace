@@ -1,0 +1,66 @@
+# Example declarative MAF workflow: marketplace vendor onboarding.
+# Illustrative shape only -- validate against the current
+# Microsoft.Agents.AI.Workflows.Declarative / agent-framework-declarative
+# schema before treating this as copy-paste-ready.
+
+workflow:
+  id: vendor-onboarding-v1
+  entry_point: extract_tax_docs
+
+  executors:
+    - id: extract_tax_docs
+      type: agent
+      input_type: VendorSubmission
+      output_type: TaxExtractionResult
+      description: >
+        Parses uploaded tax/registration documents into structured fields.
+
+    - id: credit_check
+      type: agent
+      input_type: TaxExtractionResult
+      output_type: CreditCheckResult
+      description: >
+        Runs a credit/risk check against the extracted vendor identity.
+
+    - id: fraud_review_manual
+      type: hitl
+      input_type: CreditCheckResult
+      output_type: ApprovalDecision
+      description: >
+        Human-in-the-loop approval gate. Required before any vendor with
+        risk_score > 0.8 or unverified identity proceeds to catalog sync.
+
+    - id: catalog_sync
+      type: function
+      input_type: ApprovalDecision
+      output_type: CatalogSyncResult
+      description: >
+        Writes the approved vendor into the product catalog. TYPE1-class
+        action -- only reachable after the HITL gate above.
+
+  edges:
+    - from: extract_tax_docs
+      to: credit_check
+
+    - from: credit_check
+      to: fraud_review_manual
+      condition: >
+        credit_check.output.risk_score > 0.8
+        OR credit_check.output.identity_verified == false
+
+    - from: credit_check
+      to: catalog_sync
+      condition: >
+        credit_check.output.risk_score <= 0.8
+        AND credit_check.output.identity_verified == true
+
+    - from: fraud_review_manual
+      to: catalog_sync
+      condition: fraud_review_manual.output.decision == "approved"
+
+  hil_gates:
+    - executor: fraud_review_manual
+      approval_required: true
+      reason: >
+        High-risk or unverified vendor. TYPE1-equivalent action gate --
+        see references/checkpointing-and-hitl.md.

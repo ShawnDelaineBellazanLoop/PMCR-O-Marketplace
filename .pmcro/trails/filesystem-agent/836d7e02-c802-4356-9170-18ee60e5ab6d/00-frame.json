@@ -1,0 +1,5 @@
+{
+  "trail_id": "836d7e02-c802-4356-9170-18ee60e5ab6d",
+  "seed_intent": "action: WriteFile. Call WriteFile with path=hil-verify-test.txt and content=\u0027PMCR-O ARCH-DECLARATIVE-005 HIL verification OK\u0027. Do not call ReadFile. Do not call ListDirectory. The only correct tool for this task is WriteFile.",
+  "started_utc": "2026-08-07T05:35:34.2213722Z"
+}

@@ -1,0 +1,11 @@
+{
+  "TrailId": "836d7e02-c802-4356-9170-18ee60e5ab6d",
+  "SeedIntent": "action: WriteFile. Call WriteFile with path=hil-verify-test.txt and content=\u0027PMCR-O ARCH-DECLARATIVE-005 HIL verification OK\u0027. Do not call ReadFile. Do not call ListDirectory. The only correct tool for this task is WriteFile.",
+  "Disposition": "Halt",
+  "FinalOutput": "{\n  \u0022final_output\u0022: \u0022\u0022,\n  \u0022signal\u0022: \u0022HALT\u0022,\n  \u0022improvements\u0022: [\n    {\n      \u0022area\u0022: \u0022Input Handling\u0022,\n      \u0022suggestion\u0022: \u0022Ensure the input is properly formatted and contains all necessary information to proceed with the task.\u0022\n    },\n    {\n      \u0022area\u0022: \u0022Output Structure\u0022,\n      \u0022suggestion\u0022: \u0022Validate the output schema to ensure it meets the required format and includes all mandatory fields.\u0022\n    }\n  ],\n  \u0022next_seed_intent\u0022: null\n}",
+  "RetryContext": null,
+  "HaltReason": "",
+  "EarnedConstraints": [],
+  "CycleNumber": 1,
+  "NextSeedIntent": null
+}

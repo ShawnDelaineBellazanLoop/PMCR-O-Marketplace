@@ -21,6 +21,8 @@ import DomainSelector, { DOMAINS } from "./DomainSelector";
 import RoundTable from "./RoundTable";
 import TrailView, { type Trail } from "./TrailView";
 import A2UIRenderer from "./A2UIRenderer";
+import SkillSelector from "./SkillSelector";
+import type { SkillSummary } from "../lib/skills";
 
 // ARCH-AGUI-STATE-001 (2026-07-13): mirrors ProjectName.OrchestratorService's
 // Services/PmcroStateBroadcast.cs PmcroCycleStateSnapshot record field-for-field.
@@ -187,11 +189,15 @@ function PhaseRail() {
 
 export default function ConsoleView({
   trailsByDomain,
+  skills,
 }: {
   trailsByDomain: Record<string, Trail[]>;
+  skills: SkillSummary[];
 }) {
   const [prompt, setPrompt] = useState("");
   const [sending, setSending] = useState(false);
+  const [submittedPrompt, setSubmittedPrompt] = useState<string | null>(null);
+  const [runError, setRunError] = useState<string | null>(null);
   // ARCH-DOMAIN-SELECT-001: null = untagged (today's default, resolves to
   // filesystem-agent). A chosen domain id gets prefixed onto the outgoing
   // message as an explicit routing tag the Orchestrator's instructions parse
@@ -199,6 +205,7 @@ export default function ConsoleView({
   // directory after the domain instead of "filesystem-agent", even before any
   // domain-specific skill-loading is wired in.
   const [domain, setDomain] = useState<string | null>(null);
+  const [selectedSkillIds, setSelectedSkillIds] = useState<string[]>([]);
 
   // ARCH-NEURAL-ACTION-001 (2026-07-20): LLM-addressable UI state.
   // briefingPlayTrigger is bumped (never read for its value, only its
@@ -265,13 +272,18 @@ export default function ConsoleView({
     const text = prompt.trim();
     if (!text || sending) return;
     setSending(true);
+    setSubmittedPrompt(text);
+    setRunError(null);
     try {
-      // ARCH-DOMAIN-SELECT-001: the tag is plain text in the message body, not
-      // a structured field -- AG-UI's message shape has no side-channel for it.
-      // Program.cs's Orchestrator instructions look for this exact
-      // "[domain: x]" prefix and strip it (same pattern EC-INTENT-001 already
-      // uses to strip stray routing params the LLM echoes into seedIntent).
-      const content = domain ? `[domain: ${domain}] ${text}` : text;
+      // ARCH-ROUTING-TAGS-001: domain and skill selections are explicit text
+      // tags because AG-UI's message shape has no UI side-channel for them.
+      // Program.cs parses the tags before handing the clean intent to the
+      // PMCR-O workflow and native MAF skill provider.
+      const prefixes = [
+        domain ? `[domain: ${domain}]` : "",
+        selectedSkillIds.length > 0 ? `[skills: ${selectedSkillIds.join(", ")}]` : "",
+      ].filter(Boolean);
+      const content = [...prefixes, text].join(" ");
       agent.addMessage({
         id: crypto.randomUUID(),
         role: "user",
@@ -279,6 +291,8 @@ export default function ConsoleView({
       });
       await copilotkit.runAgent({ agent });
       setPrompt("");
+    } catch (error) {
+      setRunError(error instanceof Error ? error.message : "The agent connection failed. Open the assistant for details.");
     } finally {
       setSending(false);
     }
@@ -365,51 +379,103 @@ export default function ConsoleView({
 
   return (
     <>
-      <section id="console" className="colony-shell">
-        <span className="colony-eyebrow">
-          <span className="dot" />
-          PMCR-O AI Agent Company
-        </span>
+      <section id="console" className="colony-shell" aria-labelledby="workspace-title">
+        <header className="workspace-header">
+          <div>
+            <span className="colony-eyebrow"><span className="dot" /> PMCR-O workspace</span>
+            <p className="workspace-kicker">Governed agent execution</p>
+            <h1 id="workspace-title" className="workspace-title">Turn intent into governed work.</h1>
+          </div>
+          <div className="workspace-metrics" aria-label="Workspace metrics">
+            <span><strong>{skills.length}</strong> skills</span>
+            <span><strong>{DOMAINS.length}</strong> domains</span>
+            <span><strong>4</strong> gates</span>
+          </div>
+        </header>
 
-        <h1 className="hero-title">What should the Colony work on?</h1>
-        <p className="hero-subtitle">
-          Every request runs the full Plan → Make → Check → Reflect cycle
-          against the filesystem, terminal, and browser subject agents,
-          with human-in-the-loop approval on file-write and
-          command-execution steps.
-        </p>
+        <div className="workspace-intro">
+          <h2>What should the Colony work on?</h2>
+          <p>Describe the outcome. The Orchestrator will plan, make, check, and reflect with human approval at governed boundaries.</p>
+        </div>
 
-        <form className="hero-bar" onSubmit={handleHeroSubmit}>
-          <input
-            className="hero-input"
-            type="text"
-            placeholder="e.g. list the files in src/services…"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
+        <div className="command-card">
+          <p className="command-card-label"><span className="command-dot" /> New governed run</p>
+          <form className="hero-bar" onSubmit={handleHeroSubmit}>
+            <label className="sr-only" htmlFor="colony-prompt">Task for the PMCR-O Orchestrator</label>
+            <input
+              id="colony-prompt"
+              className="hero-input"
+              type="text"
+              aria-describedby="prompt-help"
+              placeholder="Ask the Colony to inspect, build, test, or explain…"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+            />
+            <button type="submit" className="hero-submit" disabled={sending || !prompt.trim()}>
+              {sending ? "Running…" : "Run with Orchestrator"}
+            </button>
+          </form>
+          <p id="prompt-help" className="command-card-hint">Read-only exploration is immediate. File writes and command execution remain human-approved.</p>
+        </div>
+
+        <div className="workspace-controls">
+          <DomainSelector value={domain} onChange={setDomain} />
+          <div className="agent-context-badge"><span className="status-dot" data-live="false" /> Orchestrator · PMCR-O cycle</div>
+        </div>
+
+        <section className="workspace-context" aria-labelledby="context-heading">
+          <div className="workspace-section-heading">
+            <div>
+              <p className="workspace-section-kicker">02 · Context</p>
+              <h2 id="context-heading">Choose the operating context</h2>
+            </div>
+            <span className="workspace-section-meta">Optional</span>
+          </div>
+          <SkillSelector
+            skills={skills}
+            value={selectedSkillIds}
+            onChange={setSelectedSkillIds}
           />
-          <button type="submit" className="hero-submit" disabled={sending || !prompt.trim()}>
-            {sending ? "Sending…" : "Send to Orchestrator"}
-          </button>
-        </form>
+        </section>
 
-        {/* ARCH-DOMAIN-SELECT-001: optional C-Suite routing tag. Untagged
-            (default) behaves exactly as before this change -- filesystem-agent,
-            no domain in the trail path. */}
-        <DomainSelector value={domain} onChange={setDomain} />
-        {domain && (
-          <p className="domain-pill-hint">
-            Trail will be tagged <strong>{DOMAINS.find((d) => d.id === domain)?.label}</strong> —
-            runs as filesystem-agent until that domain's skill is wired in.
-          </p>
-        )}
+        <section className="workspace-activity" aria-live="polite" aria-labelledby="activity-heading">
+          <div className="workspace-section-heading">
+            <div>
+              <p className="workspace-section-kicker">03 · Activity</p>
+              <h2 id="activity-heading">Latest request</h2>
+            </div>
+            <span className={`activity-status ${sending ? "is-running" : submittedPrompt ? "is-ready" : "is-idle"}`}>
+              <span className="activity-status-dot" />
+              {sending ? "Running" : submittedPrompt ? "Submitted" : "Waiting"}
+            </span>
+          </div>
+          {submittedPrompt ? (
+            <div className="activity-request">
+              <span className="activity-request-mark">↗</span>
+              <div>
+                <p>{submittedPrompt}</p>
+                <small>{domain ? `Routed to ${DOMAINS.find((item) => item.id === domain)?.label ?? domain}` : "Default filesystem-agent routing"} · {selectedSkillIds.length} selected skills</small>
+              </div>
+            </div>
+          ) : (
+            <div className="activity-empty"><span>✦</span><p>Your submitted task and live agent status will appear here.</p></div>
+          )}
+          {runError && <p className="activity-error" role="alert">{runError}</p>}
+        </section>
 
-        {/* ARCH-ROUND-TABLE-001: live Round Table rendered from
-            .pmcro/SESSION-BRIEF.md (served as /SESSION-BRIEF.md via the
-            public/ copy, refreshed whenever brief-session regenerates it).
-            Replaces the static placeholder Trails section below. */}
-        <RoundTable playTrigger={briefingPlayTrigger} />
-
-        <PhaseRail />
+        <section className="workspace-evidence" aria-labelledby="evidence-heading">
+          <div className="workspace-section-heading">
+            <div>
+              <p className="workspace-section-kicker">04 · Evidence</p>
+              <h2 id="evidence-heading">Live cycle evidence</h2>
+            </div>
+            <span className="workspace-section-meta">PMCR-O</span>
+          </div>
+          {/* ARCH-ROUND-TABLE-001: live Round Table rendered from
+              .pmcro/SESSION-BRIEF.md and real trail data. */}
+          <RoundTable playTrigger={briefingPlayTrigger} />
+          <PhaseRail />
+        </section>
       </section>
 
       {/* ARCH-CONSOLE-TRAILPLAYER-001 (2026-07-20): now wired to real

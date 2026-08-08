@@ -1,29 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <!--
-  I Am the PMCR-O ServiceDefaults. I provide shared Aspire wiring: OTEL, health checks,
-  service discovery, resilience, and Ollama IChatClient registration.
-  Every service project references me.
-  All package versions are managed centrally via Directory.Packages.props (EC-018).
-  TargetFramework, Nullable, and ImplicitUsings are inherited from Directory.Build.props.
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net11.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsAspireSharedProject>true</IsAspireSharedProject>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <IsAspireSharedProject>true</IsAspireSharedProject>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-
-    <!-- AI abstractions + Ollama client (OLS-001: OllamaSharp only, not M.E.AI.Ollama) -->
-    <PackageReference Include="Microsoft.Extensions.AI" />
-    <PackageReference Include="OllamaSharp" />
-    <PackageReference Include="Microsoft.Extensions.Http.Resilience" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.Extensions.AI" />
+		<PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+		<PackageReference Include="OllamaSharp" />
+		<PackageReference Include="Microsoft.Extensions.Http.Resilience" />
+		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+	</ItemGroup>
 </Project>

@@ -20,7 +20,7 @@
     {
       "name": "pmcro-specialty",
       "source": "./plugins/pmcro-specialty",
-      "description": "Specialty skills: powershell-expert, property-preservation, career-evidence, skill-creator"
+      "description": "Specialty skills: powershell-expert, property-preservation, career-evidence, skill-creator, microsoft-agent-framework"
     },
     {
       "name": "dotnet",

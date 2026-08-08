@@ -1,0 +1,11 @@
+{
+  "TrailId": "fd08f724-1f9f-4dd8-b23d-7cad04f3b407",
+  "SeedIntent": "List the files in the repo root",
+  "Disposition": "Halt",
+  "FinalOutput": "",
+  "RetryContext": null,
+  "HaltReason": "ExecutorFailedEvent: Error:\r\nErrArgumentOutOfRange: Argument out of range.",
+  "EarnedConstraints": [],
+  "CycleNumber": 1,
+  "NextSeedIntent": null
+}

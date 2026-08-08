@@ -1,0 +1,15 @@
+{
+  "name": "copilotkit",
+  "displayName": "CopilotKit Frontend",
+  "description": "PMCR-O CopilotKit and AG-UI frontend redesign and validation skill.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Shawn Delaine Bellazan",
+    "email": "shawn2024bellazan@gmail.com"
+  },
+  "homepage": "https://github.com/ShawnDelaineBellazanLoop/PMCR-O-Marketplace",
+  "repository": "https://github.com/ShawnDelaineBellazanLoop/PMCR-O-Marketplace",
+  "license": "UNLICENSED",
+  "keywords": ["pmcro", "copilotkit", "ag-ui", "frontend", "nextjs", "maf"],
+  "category": "specialty"
+}

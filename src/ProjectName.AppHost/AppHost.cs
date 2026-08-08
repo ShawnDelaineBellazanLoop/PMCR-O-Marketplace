@@ -1,126 +1,140 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// PMCR-O — AppHost
-// File       : AppHost.cs
-// Identity   : Aspire orchestration entry point
-// ThoughtLock: 2026-05-30
+// src/ProjectName.AppHost/AppHost.cs
+// Anthropic Pattern: Workflow Orchestrator (MAF-native, single-service).
 //
-// Resource graph:
+// ARCH-COPILOTKIT-001 (2026-07-11): AddNextJsApp is [Experimental] in
+// Aspire.Hosting.JavaScript as of Aspire 13 — suppressing ASPIREJAVASCRIPT001
+// per Microsoft's own docs is the documented way to use it, not a workaround
+// for a real problem.
+#pragma warning disable ASPIREJAVASCRIPT001
 //
-//   [ollama-server]
-//     ├── model-orchestrator  (qwen3:8b)
-//     ├── model-research      (qwen3:8b)
-//     ├── model-reflector     (qwen3:8b)
-//     ├── model-validator     (qwen3:8b)
-//     ├── model-audit         (qwen3:8b)
-//     ├── model-reactive      (qwen3:8b)
-//     └── model-vision        (llava:13b)
-//
-//   [projectname-mcp-filesystem]  ← AllowedRoots, MaxFileSizeBytes, MaxDirectoryDepth
-//   [projectname-mcp-terminal]    ← WorkingRoot, CommandTimeoutSeconds, MaxOutputBytes
-//   [projectname-mcp-playwright]  ← Headless, AllowedDomains, timeouts
-//
-//   [projectname-agentservice]    ← MAF agent host (PMCRO loop)
-//     WaitFor: all 6 model resources + all 3 MCP servers
-//     WithEnvironment: OLLAMA_MODEL_* → ollamaModelParam / ollamaVisionModelParam
-//
-//   [agent-devui]  ← MAF Agent DevUI, wired to agentservice (Development only)
-//
-// External Parameters (override via appsettings.json or env vars):
-//   Parameters:working-root         → sandbox root for Terminal + Filesystem MCPs
-//   Parameters:ollama-model         → model tag for all cognitive roles (default: qwen3:8b)
-//   Parameters:ollama-vision-model  → model tag for vision role (default: llava:13b)
-// ═══════════════════════════════════════════════════════════════════════════════
-
-using Aspire.Hosting;
-using CommunityToolkit.Aspire.Hosting.Ollama;
-using System.IO;
-using System;
+// Architecture change (2026-06-27):
+//   BEFORE: Five Aspire projects — OrchestratorService + four phase services
+//           (PlannerService, MakerService, CheckerService, ReflectorService).
+//           OrchestratorService drove a gRPC fan-out to each phase service.
+//   AFTER:  One Aspire project — OrchestratorService only.
+//           All four phases run in-process via MAF WorkflowBuilder sequential graph.
+//           No phase service projects. No gRPC phase clients. No inter-service WaitFor.
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-// ── 1. EXTERNAL PARAMETERS ────────────────────────────────────────────────────
-var ollamaModelParam       = builder.AddParameter("ollama-model");
-var ollamaVisionModelParam = builder.AddParameter("ollama-vision-model");
+var repoRoot = builder.AddParameter("repoRoot");
 
-// ── 2. WORKING ROOT ───────────────────────────────────────────────────────────
-var workingRoot = builder.Configuration["Parameters:working-root"] ?? @"A:\PMCR-O";
-Console.WriteLine($"[BOOT] WorkingRoot: {workingRoot}");
-
-var ollamaModelTag       = builder.Configuration["Parameters:ollama-model"]       ?? "qwen3:8b";
-var ollamaVisionModelTag = builder.Configuration["Parameters:ollama-vision-model"] ?? "llava:13b";
-
-// ── 3. OLLAMA SERVER ──────────────────────────────────────────────────────────
-var ollama = builder.AddOllama("ollama-server")
+// ── Ollama persistent GPU container ───────────────────────────────────────────
+var ollama = builder
+    .AddOllama("ollama-server")
     .WithGPUSupport(OllamaGpuVendor.Nvidia)
+    .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume("ollama-data")
-    .WithLifetime(ContainerLifetime.Persistent);
+    // Context length: 16384 tokens needed for qwen3:8b with full skill manifests
+    // (bumped from default 4096 on 2026-06-20, see trail 9c361c27 analysis).
+    .WithEnvironment("OLLAMA_CONTEXT_LENGTH", "16384")
+    // BUG-OLLAMA-SIGSEGV-001 (2026-07-11): repeated SIGSEGV in
+    // ggml_backend_sched_reserve during model load (runner.go reserveWorstCaseGraph)
+    // on RTX 4070 Laptop GPU w/ 16384 ctx + flash attention enabled. Confirmed via
+    // docker logs ollama-server-12b3b73e crash dump, 2026-07-11 ~17:14:58Z. Disabling
+    // flash attention as first mitigation attempt — NOT yet verified fixed, no sealed
+    // trail exists for this fix. If crashes persist, next lever is reducing
+    // OLLAMA_CONTEXT_LENGTH below 16384.
+    .WithEnvironment("OLLAMA_FLASH_ATTENTION", "0");
 
-// ── 4. MODEL RESOURCES ────────────────────────────────────────────────────────
-var modelOrchestrator = ollama.AddModel("model-orchestrator", ollamaModelTag);
-var modelResearch     = ollama.AddModel("model-research",     ollamaModelTag);
-var modelReflector    = ollama.AddModel("model-reflector",    ollamaModelTag);
-var modelValidator    = ollama.AddModel("model-validator",    ollamaModelTag);
-var modelAudit        = ollama.AddModel("model-audit",        ollamaModelTag);
-var modelReactive     = ollama.AddModel("model-reactive",     ollamaModelTag);
-var modelVision       = ollama.AddModel("model-vision",       ollamaVisionModelTag);
+var modelOrchestrator = ollama.AddModel("model-orchestrator", "qwen3:8b");
 
-// ── 5. MCP SERVERS ────────────────────────────────────────────────────────────
-var terminalMcp = builder
-    .AddProject<Projects.ProjectName_Mcp_Terminal>("projectname-mcp-terminal")
-    .WithEnvironment("Terminal__WorkingRoot",           workingRoot)
-    .WithEnvironment("Terminal__CommandTimeoutSeconds", "60")
-    .WithEnvironment("Terminal__MaxOutputBytes",        "65536");
+// ── MCP actuator servers ───────────────────────────────────────────────────────
+var mcpFilesystem = builder
+    .AddProject<Projects.ProjectName_Mcp_Filesystem>("mcp-filesystem")
+    .WithEnvironment("Filesystem__SandboxRoot", repoRoot);
 
-var filesystemMcp = builder
-    .AddProject<Projects.ProjectName_Mcp_Filesystem>("projectname-mcp-filesystem")
-    .WithEnvironment("Filesystem__AllowedRoots",      workingRoot)
-    .WithEnvironment("Filesystem__MaxFileSizeBytes",  "1048576")
-    .WithEnvironment("Filesystem__MaxDirectoryDepth", "5");
+var mcpPlaywright = builder
+    .AddProject<Projects.ProjectName_Mcp_Playwright>("mcp-playwright")
+    // God Mode: run the browser headed so the operator can watch it drive.
+    .WithEnvironment("Playwright__Headless", "false");
 
-var playwrightMcp = builder
-    .AddProject<Projects.ProjectName_Mcp_Playwright>("projectname-mcp-playwright")
-    .WithEnvironment("Playwright__Headless",              "false")
-    .WithEnvironment("Playwright__AllowedDomains",        "")
-    .WithEnvironment("Playwright__BlockedDomains",        "")
-    .WithEnvironment("Playwright__NavigationTimeoutMs",   "30000")
-    .WithEnvironment("Playwright__SelectorTimeoutMs",     "10000")
-    .WithEnvironment("Playwright__EvaluationTimeoutMs",   "5000")
-    .WithEnvironment("Playwright__MaxContentLengthBytes", "131072");
+var mcpTerminal = builder
+    .AddProject<Projects.ProjectName_Mcp_Terminal>("mcp-terminal")
+    .WithEnvironment("Parameters__working-root", repoRoot);
 
-// ── 6. AGENT SERVICE ──────────────────────────────────────────────────────────
-// WaitFor all model resources and MCP servers before starting.
-// OLLAMA_MODEL_* env vars are injected via parameter resources so model changes
-// in appsettings.json flow through without AppHost code edits.
-var agentservice = builder
-    .AddProject<Projects.ProjectName_AgentService>("projectname-agentservice")
-    .WithReference(modelOrchestrator).WaitFor(modelOrchestrator)
-    .WithReference(modelResearch).WaitFor(modelResearch)
-    .WithReference(modelReflector).WaitFor(modelReflector)
-    .WithReference(modelValidator).WaitFor(modelValidator)
-    .WithReference(modelAudit).WaitFor(modelAudit)
-    .WithReference(modelReactive).WaitFor(modelReactive)
-    .WithReference(filesystemMcp).WaitFor(filesystemMcp)
-    .WithReference(terminalMcp).WaitFor(terminalMcp)
-    .WithReference(playwrightMcp).WaitFor(playwrightMcp)
-    .WithEnvironment("OLLAMA_MODEL_ORCHESTRATOR", ollamaModelParam)
-    .WithEnvironment("OLLAMA_MODEL_REACTIVE",     ollamaModelParam)
-    .WithEnvironment("OLLAMA_MODEL_RESEARCH",     ollamaModelParam)
-    .WithEnvironment("OLLAMA_MODEL_REFLECTOR",    ollamaModelParam)
-    .WithEnvironment("OLLAMA_MODEL_VALIDATOR",    ollamaModelParam)
-    .WithEnvironment("OLLAMA_MODEL_AUDIT",        ollamaModelParam)
-    .WithEnvironment("OLLAMA_MODEL_VISION",       ollamaVisionModelParam)
-    .WithEnvironment("OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT", "true")
-    .WithEnvironment("WORKSPACE_ROOT", workingRoot)
-    .WithExternalHttpEndpoints();
+// ── OrchestratorService — owns the full PMCRO cycle in-process ────────────────
+// All four phases (Planner, Maker, Checker, Reflector) run inside this one service
+// as MAF AIAgents wired into a WorkflowBuilder sequential graph via PmcroLoop.
+// No phase service references. No gRPC client WaitFors.
+var orchestratorService = builder
+    .AddProject<Projects.ProjectName_OrchestratorService>("orchestratorservice")
+    .WithReference(ollama)
+    .WithReference(modelOrchestrator)
+    .WithReference(mcpFilesystem)    // McpToolCache — filesystem MCP wired and proven
+    .WithReference(mcpPlaywright)    // McpToolCache — forward-compat, not yet active
+    .WithReference(mcpTerminal)      // McpToolCache — forward-compat, not yet active
+    .WithEnvironment("Orchestrator__FileSystemRoot", repoRoot)
+    // MaxLoops override removed 2026-07-13: this hardcoded "3" was silently
+    // shadowing appsettings.json's "MaxLoops": 5 (env vars beat appsettings.json
+    // in .NET config precedence), contradicting GTDDD-MANDATE ("every value here
+    // is sourced from appsettings.json / environment -- no hardcoded limits in
+    // code"). appsettings.json is now the single source of truth for MaxLoops.
+    .WaitFor(modelOrchestrator)
+    .WaitFor(mcpFilesystem)
+    .WaitFor(mcpTerminal);
+// EC-ASPIRE-001: mcpPlaywright intentionally NOT in WaitFor.
+// Playwright is a lazy actuator — its browser never launches until ExecuteNavigateTo fires.
+// A WaitFor here cascades mcp-playwright crashes into a full colony stall.
+// OrchestratorService tolerates a dead playwright MCP: CallMcp returns an error string,
+// Reflector writes Disposition:Retry. Browser install can happen while the rest runs.
 
-// ── 7. DEVUI ──────────────────────────────────────────────────────────────────
-// DevUI Triangle:
-//   [agent-devui resource] ← AppHost side: registers the frontend resource
-//   [AgentService]         ← service side: builder.AddDevUI() + app.MapDevUI() in Program.cs
-//
-// WithAgentService() wires the DevUI frontend to point at agentservice so the
-// chat/loop UI is surfaced in the Aspire dashboard under "agent-devui".
-builder.AddDevUI("agent-devui")
-    .WithAgentService(agentservice);
+// ── OrchestratorApi — HTTP facade over OrchestratorService ─────────────────────
+// Thin REST/chat surface (Scalar, CopilotKit-compatible /copilot/chat, trail replay).
+// Wired to the same Ollama model + MCP servers so it can replay sealed trails.
+var orchestratorApi = builder
+    .AddProject<Projects.ProjectName_OrchestratorApi>("orchestratorapi")
+    .WithReference(ollama)
+    .WithReference(modelOrchestrator)
+    .WithReference(mcpFilesystem)
+    .WithReference(mcpPlaywright)
+    .WithReference(mcpTerminal)
+    .WithReference(orchestratorService)
+    // ARCH-TRAILS-001 (2026-07-11): Trails__Root override removed — it was hardcoded
+    // to a stale S:\.pmcro\trails from before the sandbox root moved to B:\pmcro-cline.
+    // TrailReader.TrailsRoot falls back to env.ContentRootPath + ".pmcro\trails" when
+    // no config override is set, which correctly resolves to the real on-disk trails
+    // under B:\pmcro-cline\.pmcro\trails. See Services/TrailReader.cs.
+    .WaitFor(modelOrchestrator)
+    .WaitFor(orchestratorService);
+
+
+// ── DevUI Dashboard ────────────────────────────────────────────────────────────
+var devUI = builder.AddDevUI("pmcro-devui");
+devUI.WithAgentService(orchestratorService);
+
+// ── CopilotKit frontend (Next.js) ─────────────────────────────────────────────
+// ARCH-COPILOTKIT-001 (2026-07-11): Next.js App Router app under src/frontend.
+// The CopilotKit runtime (app/api/copilotkit/route.ts) runs server-side inside
+// this Next.js process and bridges to OrchestratorService's real AG-UI endpoint
+// (see ARCH-AGUI-001 in OrchestratorService/Program.cs) via an HttpAgent — the
+// browser never talks to OrchestratorService directly, only to this Next.js app.
+// AGUI_SERVER_URL is read server-side via process.env in route.ts (safe: never
+// bundled into client JS, unlike NEXT_PUBLIC_* vars).
+var frontend = builder.AddNextJsApp("frontend", "../frontend")
+    .WithReference(orchestratorService)
+    .WithEnvironment("AGUI_SERVER_URL", ReferenceExpression.Create($"{orchestratorService.GetEndpoint("http")}/agui"))
+    // ARCH-HARNESS-003 (2026-07-22): second AG-UI endpoint for the parallel
+    // HarnessAgent surface (see ARCH-HARNESS-001/002 in
+    // OrchestratorService/Program.cs). Read-only, HIL-gated separately from
+    // PmcroLoop -- selectable in the frontend via useAgent({ agentId: "Harness" })
+    // per CopilotKit's documented multi-agent pattern, not auto-used by the
+    // prebuilt chat components (only the single "Orchestrator" entry is).
+    .WithEnvironment("AGUI_HARNESS_SERVER_URL", ReferenceExpression.Create($"{orchestratorService.GetEndpoint("http")}/agui/harness"))
+    .WithExternalHttpEndpoints()
+    .WaitFor(orchestratorService);
+// ARCH-A2UI-001 (2026-07-15) CORRECTION: an earlier pass briefly added
+// .WithReference(ollama) + A2UI_OLLAMA_BASE_URL here, on the assumption that
+// A2UI's Dynamic Schema mode needs a second, independently-configured LLM.
+// That assumption came from public CopilotKit docs for a newer/different SDK
+// generation than what's actually installed here (checked directly against
+// node_modules/@ag-ui/a2ui-middleware/dist/index.d.ts and
+// node_modules/@copilotkit/runtime/dist/v2/runtime/core/runtime.d.mts). In
+// THIS installed version, runtime.a2ui is just A2UIMiddlewareConfig --
+// injectA2UITool injects a structured render_a2ui tool into the EXISTING
+// agent's own tool list; the Orchestrator (already Ollama/qwen3:8b via
+// MAF/.NET, already tool-calling) calls it directly. No second model, no
+// extra Aspire wiring needed. Reverted -- see docs/adr/0002 for the
+// corrected finding.
 
 builder.Build().Run();

@@ -43,6 +43,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { CopilotSidebar, CopilotModalHeader } from "@copilotkit/react-core/v2";
 
 const HIDDEN_INPUT_SLOT = { style: { display: "none" } };
@@ -80,6 +81,8 @@ function AgentModeToggle({ value, onChange }: { value: ChatAgentId; onChange: (i
           className="agent-mode-pill"
           data-active={value === m.id}
           title={m.title}
+          role="radio"
+          aria-checked={value === m.id}
           onClick={() => onChange(m.id)}
         >
           {m.label}
@@ -90,7 +93,8 @@ function AgentModeToggle({ value, onChange }: { value: ChatAgentId; onChange: (i
 }
 
 export default function ChatPanel() {
-  const [agentId, setAgentId] = useState<ChatAgentId>("Orchestrator");
+  const pathname = usePathname();
+  const [agentId, setAgentId] = useState<ChatAgentId>(pathname === "/harness" ? "Harness" : "Orchestrator");
   const labels = AGENT_LABELS[agentId];
 
   return (
@@ -98,7 +102,7 @@ export default function ChatPanel() {
       agentId={agentId}
       labels={labels}
       input={HIDDEN_INPUT_SLOT}
-      defaultOpen={true}
+      defaultOpen={false}
       header={{
         // FIX (2026-07-22): `header` is SlotValue<typeof CopilotModalHeader>
         // = `typeof CopilotModalHeader | string | Partial<ComponentProps<...>>`

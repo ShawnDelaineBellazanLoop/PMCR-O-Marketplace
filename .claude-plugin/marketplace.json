@@ -158,6 +158,13 @@
       "displayName": "Plugin Creator"
     },
     {
+      "name": "microsoft-agent-framework",
+      "source": "./plugins/pmcro-specialty/skills/microsoft-agent-framework",
+      "description": "Knowledge scope on Microsoft Agent Framework 1.0 -- Executors/Edges/Events, orchestration patterns, declarative YAML workflows, Pregel checkpointing, Agent Harness, CodeAct+Hyperlight, FIDES security. Documentation-only.",
+      "category": "specialty",
+      "displayName": "Microsoft Agent Framework"
+    },
+    {
       "name": "git",
       "source": "./plugins/pmcro-specialty/skills/git",
       "description": "Whitelisted local version-control operations (status, add, commit, branch, diff, log) on a repository already on disk. No remote or history-rewriting operations.",

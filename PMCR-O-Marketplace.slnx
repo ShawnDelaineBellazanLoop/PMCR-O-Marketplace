@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ProjectName.AppHost/ProjectName.AppHost.csproj" />
+    <Project Path="src/ProjectName.ServiceDefaults/ProjectName.ServiceDefaults.csproj" />
+    <Project Path="src/ProjectName.OrchestratorApi/ProjectName.OrchestratorApi.csproj" />
+    <Project Path="src/ProjectName.Core/ProjectName.Core.csproj" />
+    <Folder Name="/services/">
+      <Project Path="src/services/ProjectName.OrchestratorService/ProjectName.OrchestratorService.csproj" />
+    </Folder>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ProjectName.OrchestratorService.Tests/ProjectName.OrchestratorService.Tests.csproj" />
+  </Folder>
+  <Folder Name="/mcp/">
+    <Project Path="mcp/ProjectName.Mcp.Filesystem/ProjectName.Mcp.Filesystem.csproj" />
+    <Project Path="mcp/ProjectName.Mcp.Playwright/ProjectName.Mcp.Playwright.csproj" />
+    <Project Path="mcp/ProjectName.Mcp.Terminal/ProjectName.Mcp.Terminal.csproj" />
+  </Folder>
+</Solution>

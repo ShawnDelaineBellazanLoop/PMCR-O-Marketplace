@@ -9,6 +9,7 @@
 // player section at the bottom of the Console show real cycle data instead
 // of the old hardcoded `trail={null}`.
 import { loadTrailsByDomain } from "./lib/trails";
+import { loadSkillCatalog } from "./lib/skills";
 import ConsoleView from "./components/ConsoleView";
 
 // Same reasoning as app/directory/page.tsx: trail data changes whenever a
@@ -17,6 +18,9 @@ import ConsoleView from "./components/ConsoleView";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const trailsByDomain = await loadTrailsByDomain();
-  return <ConsoleView trailsByDomain={trailsByDomain} />;
+  const [trailsByDomain, skills] = await Promise.all([
+    loadTrailsByDomain(),
+    loadSkillCatalog(),
+  ]);
+  return <ConsoleView trailsByDomain={trailsByDomain} skills={skills} />;
 }
