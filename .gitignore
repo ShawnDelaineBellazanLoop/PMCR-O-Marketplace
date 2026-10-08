@@ -427,3 +427,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Generated working output, not tracked (directive: do not delete, exclude from Git)
+output/

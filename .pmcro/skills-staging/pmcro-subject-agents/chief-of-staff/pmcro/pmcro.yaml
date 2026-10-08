@@ -1,9 +1,0 @@
-﻿skill: chief-of-staff
-inherits: ../../..
-memory: memory/
-workflows: workflows/
-policies: policies/
-trails: trails/
-templates: templates/
-registry: registry/
-

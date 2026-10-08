@@ -1,0 +1,16 @@
+# PMCR-O secret policy (item 85: secrets stay off the trail).
+title = "PMCR-O secret scan"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Generated and vendored paths, not authored content"
+paths = [
+  '''node_modules/''',
+  '''\.next/''',
+  '''/bin/''',
+  '''/obj/''',
+  '''output/''',
+  '''\.git/''',
+]

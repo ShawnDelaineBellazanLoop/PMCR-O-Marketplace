@@ -18,9 +18,9 @@
   },
   "workspace": {
     "root": "W:/PMCR_O/PMCR-O-Marketplace",
-    "trail_root": ".pmcro/trails",
+    "trail_root": "skills/trails",
     "memory_root": ".pmcro/memory",
-    "plugin_root": "plugins",
+    "plugin_root": "skills/plugins",
     "app_src_root": "src",
     "app_mcp_root": "mcp"
   },

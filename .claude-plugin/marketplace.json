@@ -10,63 +10,63 @@
   "plugins": [
     {
       "name": "ceo",
-      "source": "./plugins/pmcro-csuite/skills/ceo",
+      "source": "./skills/plugins/pmcro-csuite/skills/ceo",
       "description": "Chief Executive domain — strategic direction, OKRs, compute allocation, agent routing. Root node of the Colony.",
       "category": "executive",
       "displayName": "Chief Executive Officer"
     },
     {
       "name": "cfo",
-      "source": "./plugins/pmcro-csuite/skills/cfo",
+      "source": "./skills/plugins/pmcro-csuite/skills/cfo",
       "description": "Chief Financial domain — budgeting, cash flow, forecasting, cost optimization, investor reporting.",
       "category": "executive",
       "displayName": "Chief Financial Officer"
     },
     {
       "name": "cto",
-      "source": "./plugins/pmcro-csuite/skills/cto",
+      "source": "./skills/plugins/pmcro-csuite/skills/cto",
       "description": "Chief Technology domain — architecture, skill pack validation, security posture, DevOps, incident response.",
       "category": "executive",
       "displayName": "Chief Technology Officer"
     },
     {
       "name": "coo",
-      "source": "./plugins/pmcro-csuite/skills/coo",
+      "source": "./skills/plugins/pmcro-csuite/skills/coo",
       "description": "Chief Operations domain — SOPs, workflow automation, vendor/compliance management, resource allocation, KPI dashboards.",
       "category": "executive",
       "displayName": "Chief Operations Officer"
     },
     {
       "name": "cmo",
-      "source": "./plugins/pmcro-csuite/skills/cmo",
+      "source": "./skills/plugins/pmcro-csuite/skills/cmo",
       "description": "Chief Marketing domain — content creation, SEO, social media, campaign management, brand voice.",
       "category": "executive",
       "displayName": "Chief Marketing Officer"
     },
     {
       "name": "cro",
-      "source": "./plugins/pmcro-csuite/skills/cro",
+      "source": "./skills/plugins/pmcro-csuite/skills/cro",
       "description": "Chief Revenue domain — lead generation, CRM automation, proposal writing, pipeline management, deal closing.",
       "category": "executive",
       "displayName": "Chief Revenue Officer"
     },
     {
       "name": "clo",
-      "source": "./plugins/pmcro-csuite/skills/clo",
+      "source": "./skills/plugins/pmcro-csuite/skills/clo",
       "description": "Chief Legal domain — contract review, risk analysis, regulatory compliance, privacy, IP protection.",
       "category": "executive",
       "displayName": "Chief Legal Officer"
     },
     {
       "name": "chro",
-      "source": "./plugins/pmcro-csuite/skills/chro",
+      "source": "./skills/plugins/pmcro-csuite/skills/chro",
       "description": "Chief People domain — hiring pipelines, onboarding, performance reviews, culture docs, training design.",
       "category": "executive",
       "displayName": "Chief People Officer"
     },
     {
       "name": "chief-of-staff",
-      "source": "./plugins/pmcro-csuite/skills/chief-of-staff",
+      "source": "./skills/plugins/pmcro-csuite/skills/chief-of-staff",
       "description": "Chief of Staff domain — priority triage, cross-agent coordination, brief writing.",
       "category": "staff",
       "displayName": "Chief of Staff"
@@ -74,7 +74,7 @@
     {
       "name": "pmcro-framework",
       "version": "2.1.0",
-      "source": "./plugins/pmcro-engine/skills/pmcro-framework",
+      "source": "./skills/plugins/pmcro-engine/skills/pmcro-framework",
       "description": "Governance layer of the Tooensure Cognitive Stack. Declares the loop, the laws, the phase contracts, and the TYPE 1/2 boundary. Loaded by every agent in the stack, always, before any other skill.",
       "category": "engine",
       "displayName": "PMCR-O Framework (Governance)"
@@ -82,7 +82,7 @@
     {
       "name": "dependency-resolver",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-engine/skills/dependency-resolver",
+      "source": "./skills/plugins/pmcro-engine/skills/dependency-resolver",
       "description": "Resolves which domain SKILL.md and which PMCR-O role-skills a cycle needs by walking metadata.pmcro_provides/pmcro_requires across the catalog. Invoked by orchestrator at the start of every cycle. Provides: dependency-resolver.",
       "category": "engine",
       "displayName": "Dependency Resolver"
@@ -90,7 +90,7 @@
     {
       "name": "orchestrator",
       "version": "1.1.0",
-      "source": "./plugins/pmcro-engine/skills/orchestrator",
+      "source": "./skills/plugins/pmcro-engine/skills/orchestrator",
       "description": "The Orchestrate role of the PMCR-O loop — owns sequencing, loop-vs-seal, and EC-009 MaxLoops enforcement. Per COMPANY-008 (standing law), runs a full cycle by default once loaded — no invocation required, no direct-answer bypass. Provides: orchestrator. Requires: planner, maker, checker, reflector, dependency-resolver.",
       "category": "engine",
       "displayName": "Orchestrator (PMCR-O Loop)"
@@ -98,7 +98,7 @@
     {
       "name": "planner",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-engine/skills/planner",
+      "source": "./skills/plugins/pmcro-engine/skills/planner",
       "description": "The Plan role of the PMCR-O loop — passive, composable. Provides: planner.",
       "category": "engine",
       "displayName": "Planner (PMCR-O Loop)"
@@ -106,7 +106,7 @@
     {
       "name": "maker",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-engine/skills/maker",
+      "source": "./skills/plugins/pmcro-engine/skills/maker",
       "description": "The Make role of the PMCR-O loop — passive, composable. Provides: maker.",
       "category": "engine",
       "displayName": "Maker (PMCR-O Loop)"
@@ -114,7 +114,7 @@
     {
       "name": "checker",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-engine/skills/checker",
+      "source": "./skills/plugins/pmcro-engine/skills/checker",
       "description": "The Check role of the PMCR-O loop — passive, composable. Provides: checker.",
       "category": "engine",
       "displayName": "Checker (PMCR-O Loop)"
@@ -122,7 +122,7 @@
     {
       "name": "reflector",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-engine/skills/reflector",
+      "source": "./skills/plugins/pmcro-engine/skills/reflector",
       "description": "The Reflect role of the PMCR-O loop — crystallizes EarnedConstraints. Provides: reflector.",
       "category": "engine",
       "displayName": "Reflector (PMCR-O Loop)"
@@ -130,7 +130,7 @@
     {
       "name": "domain-specialist",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-specialty/skills/domain-specialist",
+      "source": "./skills/plugins/pmcro-specialty/skills/domain-specialist",
       "description": "Chat distillation, pattern extraction, memory hydration, and LLM session export processing.",
       "category": "specialty",
       "displayName": "Domain Specialist"
@@ -138,49 +138,49 @@
     {
       "name": "property-preservation",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-specialty/skills/property-preservation",
+      "source": "./skills/plugins/pmcro-specialty/skills/property-preservation",
       "description": "Tooensure Recovery Services field/contractor execution: work orders, bid writing, inspection reports, vendor coordination, county data extraction.",
       "category": "specialty",
       "displayName": "Property Preservation"
     },
     {
       "name": "skill-creator",
-      "source": "./plugins/pmcro-specialty/skills/skill-creator",
+      "source": "./skills/plugins/pmcro-specialty/skills/skill-creator",
       "description": "Packages a new command, sub-agent, domain, or PMCR-O role-skill into this repo's catalog convention. Requires: dependency-resolver.",
       "category": "specialty",
       "displayName": "Skill Creator"
     },
     {
       "name": "plugin-creator",
-      "source": "./plugins/pmcro-specialty/skills/plugin-creator",
+      "source": "./skills/plugins/pmcro-specialty/skills/plugin-creator",
       "description": "Scaffolds a brand-new top-level plugin package under plugins/<name>/ when a capability doesn't fit inside any existing plugin. Requires: dependency-resolver, skill-creator.",
       "category": "specialty",
       "displayName": "Plugin Creator"
     },
     {
       "name": "microsoft-agent-framework",
-      "source": "./plugins/pmcro-specialty/skills/microsoft-agent-framework",
+      "source": "./skills/plugins/pmcro-specialty/skills/microsoft-agent-framework",
       "description": "Knowledge scope on Microsoft Agent Framework 1.0 -- Executors/Edges/Events, orchestration patterns, declarative YAML workflows, Pregel checkpointing, Agent Harness, CodeAct+Hyperlight, FIDES security. Documentation-only.",
       "category": "specialty",
       "displayName": "Microsoft Agent Framework"
     },
     {
       "name": "git",
-      "source": "./plugins/pmcro-specialty/skills/git",
+      "source": "./skills/plugins/pmcro-specialty/skills/git",
       "description": "Whitelisted local version-control operations (status, add, commit, branch, diff, log) on a repository already on disk. No remote or history-rewriting operations.",
       "category": "specialty",
       "displayName": "Git (Local)"
     },
     {
       "name": "career-evidence",
-      "source": "./plugins/pmcro-specialty/skills/career-evidence",
+      "source": "./skills/plugins/pmcro-specialty/skills/career-evidence",
       "description": "Gathers verifiable evidence of real programming history (local git, GitHub, corpus) into an honest, source-cited career timeline. Never fabricates dates or titles.",
       "category": "specialty",
       "displayName": "Career Evidence"
     },
     {
       "name": "powershell-expert",
-      "source": "./plugins/pmcro-specialty/skills/powershell-expert",
+      "source": "./skills/plugins/pmcro-specialty/skills/powershell-expert",
       "description": "Develops PowerShell scripts, tools, modules, and GUIs following Microsoft best practices, with live verification against PowerShell Gallery and Microsoft Docs.",
       "category": "specialty",
       "displayName": "PowerShell Expert"
@@ -188,7 +188,7 @@
     {
       "name": "codeact-agent",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-specialty/skills/codeact-agent",
+      "source": "./skills/plugins/pmcro-specialty/skills/codeact-agent",
       "description": "The Colony's subject agent for Python code execution via Hyperlight sandbox. Read-only tool scope.",
       "category": "specialty",
       "displayName": "CodeAct Agent"
@@ -196,7 +196,7 @@
     {
       "name": "cognitive-trails",
       "version": "2.1.0",
-      "source": "./plugins/pmcro-specialty/skills/cognitive-trails",
+      "source": "./skills/plugins/pmcro-specialty/skills/cognitive-trails",
       "description": "Living teaching agent for the PMCR-O Cognitive Architecture and Microsoft Agent Framework design patterns, from zero-to-agent through Colony Laws.",
       "category": "specialty",
       "displayName": "Cognitive Trails (Teaching)"
@@ -204,7 +204,7 @@
     {
       "name": "pattern-learner",
       "version": "1.1.0",
-      "source": "./plugins/pmcro-specialty/skills/pattern-learner",
+      "source": "./skills/plugins/pmcro-specialty/skills/pattern-learner",
       "description": "Meta-Reflector — reads multiple sealed PMCR-O trails and clusters recurring patterns across cycles and subjects, with evidence thresholds. Read-only, requires human gate to promote findings.",
       "category": "specialty",
       "displayName": "Pattern Learner"
@@ -212,14 +212,14 @@
     {
       "name": "trail-indexer",
       "version": "1.1.0",
-      "source": "./plugins/pmcro-specialty/skills/trail-indexer",
+      "source": "./skills/plugins/pmcro-specialty/skills/trail-indexer",
       "description": "Reads sealed PMCR-O trails and produces a structured index of seed intent, disposition, cycle count, and key artifacts. Read-only.",
       "category": "specialty",
       "displayName": "Trail Indexer"
     },
     {
       "name": "mcp-server-template",
-      "source": "./plugins/pmcro-specialty/skills/mcp-server-template",
+      "source": "./skills/plugins/pmcro-specialty/skills/mcp-server-template",
       "description": "Scaffolds a new subject-agent MCP server matching the proven three-pillar structure (Tools/Resources/Prompts) already used by the Filesystem, Playwright, and Terminal servers.",
       "category": "specialty",
       "displayName": "MCP Server Template"
@@ -227,14 +227,14 @@
     {
       "name": "source-dump-generator",
       "version": "1.0.0",
-      "source": "./plugins/pmcro-specialty/skills/source-dump-generator",
+      "source": "./skills/plugins/pmcro-specialty/skills/source-dump-generator",
       "description": "Generates comprehensive or compact single-file source code dumps of the PMCR-O repository for analysis, transfer, or archival.",
       "category": "specialty",
       "displayName": "Source Dump Generator"
     },
     {
       "name": "desktop-commander",
-      "source": "./plugins/pmcro-specialty/skills/desktop-commander",
+      "source": "./skills/plugins/pmcro-specialty/skills/desktop-commander",
       "description": "Canonical capability contract for the Desktop Commander MCP provider — filesystem, terminal, browser, and process management, mapped to PMCR-O capabilities via a swappable binding.",
       "category": "specialty",
       "displayName": "Desktop Commander (Capability Contract)"
@@ -242,89 +242,89 @@
     {
       "name": "framework-evolution",
       "version": "1.1.0",
-      "source": "./plugins/pmcro-specialty/skills/framework-evolution",
+      "source": "./skills/plugins/pmcro-specialty/skills/framework-evolution",
       "description": "Seed-intent skill that triggers a full PMCR-O loop studying and refining the framework itself against Anthropic and Microsoft Agent Framework standards, crystallizing findings back into governance. Read Phase paths point at the live-app stack (W:\\PMCR_O\\PMCR-O).",
       "category": "specialty",
       "displayName": "Framework Evolution"
     },
     {
       "name": "dotnet",
-      "source": "./plugins/dotnet",
+      "source": "./skills/plugins/dotnet",
       "description": "C# language server (LSP) integration for coding agents and high-level .NET development skills."
     },
     {
       "name": "dotnet11",
-      "source": "./plugins/dotnet11",
+      "source": "./skills/plugins/dotnet11",
       "description": "Skills for .NET 11 APIs and language features."
     },
     {
       "name": "dotnet-advanced",
-      "source": "./plugins/dotnet-advanced",
+      "source": "./skills/plugins/dotnet-advanced",
       "description": "Advanced .NET and C# skills for niche scenarios that are not part of the core dotnet plugin."
     },
     {
       "name": "dotnet-ai",
-      "source": "./plugins/dotnet-ai",
+      "source": "./skills/plugins/dotnet-ai",
       "description": "AI and ML skills for .NET: technology selection, LLM integration, agentic workflows, RAG pipelines, MCP, and classic ML with ML.NET."
     },
     {
       "name": "dotnet-aspnetcore",
-      "source": "./plugins/dotnet-aspnetcore",
+      "source": "./skills/plugins/dotnet-aspnetcore",
       "description": "ASP.NET Core web development skills including middleware, endpoints, real-time communication, and API patterns."
     },
     {
       "name": "dotnet-blazor",
-      "source": "./plugins/dotnet-blazor",
+      "source": "./skills/plugins/dotnet-blazor",
       "description": "Skills for Blazor development: component authoring, interactivity, and web application patterns."
     },
     {
       "name": "dotnet-data",
-      "source": "./plugins/dotnet-data",
+      "source": "./skills/plugins/dotnet-data",
       "description": "Skills for .NET data access and Entity Framework related tasks."
     },
     {
       "name": "dotnet-diag",
-      "source": "./plugins/dotnet-diag",
+      "source": "./skills/plugins/dotnet-diag",
       "description": "Skills for .NET performance investigations, debugging, and incident analysis."
     },
     {
       "name": "dotnet-experimental",
-      "source": "./plugins/dotnet-experimental",
+      "source": "./skills/plugins/dotnet-experimental",
       "description": "Experimental skills under active evaluation that may change or graduate to stable plugins."
     },
     {
       "name": "dotnet-maui",
-      "source": "./plugins/dotnet-maui",
+      "source": "./skills/plugins/dotnet-maui",
       "description": "Skills for .NET MAUI development: environment setup, diagnostics, troubleshooting, navigation, data binding, dependency injection, layout, and theming."
     },
     {
       "name": "dotnet-msbuild",
-      "source": "./plugins/dotnet-msbuild",
+      "source": "./skills/plugins/dotnet-msbuild",
       "description": "Comprehensive MSBuild and .NET build skills: failure diagnosis, performance optimization, code quality, and modernization."
     },
     {
       "name": "dotnet-nuget",
-      "source": "./plugins/dotnet-nuget",
+      "source": "./skills/plugins/dotnet-nuget",
       "description": "NuGet and .NET package management skills: dependency management and modernization."
     },
     {
       "name": "dotnet-template-engine",
-      "source": "./plugins/dotnet-template-engine",
+      "source": "./skills/plugins/dotnet-template-engine",
       "description": ".NET Template Engine skills for dotnet new: create projects (console app, class library, web API, Blazor, MAUI), discover and search templates, inspect template parameters and frameworks, scaffold solutions, author and validate custom templates, install template packages from NuGet."
     },
     {
       "name": "dotnet-test",
-      "source": "./plugins/dotnet-test",
+      "source": "./skills/plugins/dotnet-test",
       "description": "Skills for running, generating, analyzing, and improving .NET tests: test execution, filtering, platform detection, coverage, testability, and MSTest workflows."
     },
     {
       "name": "dotnet-test-migration",
-      "source": "./plugins/dotnet-test-migration",
+      "source": "./skills/plugins/dotnet-test-migration",
       "description": "Skills and an orchestrator agent for migrating .NET test frameworks and platforms: MSTest and xUnit version upgrades, xUnit-to-MSTest conversion, and VSTest to Microsoft.Testing.Platform."
     },
     {
       "name": "dotnet-upgrade",
-      "source": "./plugins/dotnet-upgrade",
+      "source": "./skills/plugins/dotnet-upgrade",
       "description": "Skills for migrating and upgrading .NET projects across framework versions, language features, and compatibility targets."
     }
   ]
