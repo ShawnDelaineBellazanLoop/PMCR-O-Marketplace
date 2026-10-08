@@ -1,3 +1,8 @@
+---
+name: desktop-commander
+description: MCP capability provider for PMCR-O covering filesystem, terminal, browser, search, and process management through one server. Use when the Maker dispatches to those capabilities.
+---
+
 # Desktop Commander — MAF Agent Skill
 
 Desktop Commander is the MCP provider for PMCR-O's capability layer. It exposes
